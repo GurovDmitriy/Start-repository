@@ -45,5 +45,5 @@ Thumbs.db
 *.pdf
 *.psd
 *.sublime*
-**/node_modules
-**/build
+node_modules/
+build/
