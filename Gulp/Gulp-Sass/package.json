@@ -4,6 +4,8 @@
   "description": "gulp sass start repository",
   "main": "gulpfile.js",
   "dependencies": {
+  },
+  "devDependencies": {
     "browser-sync": "^2.26.13",
     "del": "^6.0.0",
     "eslint": "^7.11.0",
@@ -28,7 +30,6 @@
     "node-sass": "^4.14.1",
     "terser": "^5.3.7"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "test"
   },
