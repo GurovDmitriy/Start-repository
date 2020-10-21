@@ -1,7 +1,7 @@
 {
   "name": "gulp-less-start-repository",
   "version": "1.0.0",
-  "description": "less sass start repository",
+  "description": "gulp less start repository",
   "main": "gulpfile.js",
   "dependencies": {
   },
