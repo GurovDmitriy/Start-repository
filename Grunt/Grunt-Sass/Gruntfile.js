@@ -25,28 +25,33 @@ module.exports = function (grunt) {
     // watcher
     watch: {
       watchStyleTask: {
-        files: ['source/less/**/*.less'],
-        tasks: ['less:lessTask'],
+        files: ['source/sass/**/*.scss'],
+        tasks: ['sass:sassTask', 'postcss'],
       },
     },
 
-    // less to css autoprefixer source map
-    less: {
-      lessTask: {
-        options: {
-          relativeUrls: true,
-          plugins: [
-            new (require('less-plugin-autoprefix'))({browsers: ["last 2 versions"]})
-          ],
-          sourceMap: true,
-          sourceMapFilename: 'source/css/style.css.map',
-          sourceMapURL: '/css/style.css.map',
-          sourceMapBasepath: 'source',
-          sourceMapRootpath: '/',
-        },
+    // sass to css source map
+    sass: {
+      sassTask: {
         files: {
-          'source/css/style.css': 'source/less/style.less',
+          'source/css/style.css': 'source/sass/style.scss'
         },
+      },
+    },
+
+    // autoprefix
+    postcss: {
+      options: {
+        map: {
+            inline: false,
+            annotation: 'source/css/'
+        },
+        processors: [
+          require('autoprefixer')({overrideBrowserslist: ['last 2 versions', 'ie >= 9']}),
+        ]
+      },
+      dist: {
+        src: 'source/css/style.css'
       },
     },
 
@@ -117,7 +122,6 @@ module.exports = function (grunt) {
           mozjpeg: ['-optimize', '-progressive'],
           guetzli: ['--quality', 85],
           gifsicle: ['--optimize'],
-          svgo: ['--enable', 'cleanupIDs', '--disable', 'convertColors'],
         },
         files: [{
           expand: true,
@@ -174,14 +178,17 @@ module.exports = function (grunt) {
 
     // clean build
     clean: {
-      cleanTask: {
+      cleanAllTask: {
         src: ['build/'],
+      },
+      cleanTask: {
+        src: ['build/*', '!build/image'],
       },
     },
 
     // copy for build
     copy: {
-      copyTask: {
+      copyAllTask: {
         files: [
           {
             expand: true,
@@ -205,6 +212,28 @@ module.exports = function (grunt) {
           },
         ],
       },
+      copyTask: {
+        files: [
+          {
+            expand: true,
+            flatten: true,
+            src: ['source/*'],
+            dest: 'build/',
+            filter: 'isFile',
+          },
+          {
+            expand: true,
+            cwd: 'source/',
+            src: [
+              'css/style.css',
+              'js/*.js',
+              'font/woff/*',
+              'font/woff2/*',
+            ],
+            dest: 'build/',
+          },
+        ],
+      },
     },
 
     // for parallel config task
@@ -223,15 +252,24 @@ module.exports = function (grunt) {
         'ttf2woff:ttf2woffTask',
         'ttf2woff2:ttf2woff2Task',
         ],
+      concurrentAllCleanTask: [
+      'sass:sassTask',
+      'clean:cleanAllTask',
+      ],
       concurrentCleanTask: [
-      'less:lessTask',
+      'sass:sassTask',
       'clean:cleanTask',
       ],
-      concurrentMinTask: [
+      concurrentAllMinTask: [
+        'htmlmin:htmlMinTask',
         'cssmin:cssminTask',
         'uglify:uglifyTask',
-        'htmlmin:htmlMinTask',
         'image:imageMinTask',
+      ],
+      concurrentMinTask: [
+        'htmlmin:htmlMinTask',
+        'cssmin:cssminTask',
+        'uglify:uglifyTask',
       ],
       options: {
         logConcurrentOutput: true,
@@ -240,51 +278,60 @@ module.exports = function (grunt) {
 
   });
 
-  // basic task run font and webp convert svgmin and svgsprite for dev
-  grunt.registerTask('basic', [
-    'concurrent:concurrentBasicTask',
-    'svgstore:svgstoreTask',
-  ]);
+    // basic task run font and webp convert svgmin and svgsprite for dev
+    grunt.registerTask('basic', [            // source folder
+      'concurrent:concurrentBasicTask',      // fontgen webp and svgmin
+      'svgstore:svgstoreTask',               // svgsprite
+    ]);
 
-  // run compil style browser and watcher for dev
-  grunt.registerTask('start', [
-    'less:lessTask',
-    'browserSync:browserSyncTask',
-    'watch:watchStyleTask',
-  ]);
+    // run compil style browser and watcher for dev
+    grunt.registerTask('start', [            // source folder
+      'sass:sassTask',                       // sass compil
+      'postcss',                             // autoprefix
+      'browserSync:browserSyncTask',         // server
+      'watch:watchStyleTask',                // watcher
+    ]);
 
-  // run build product version
-  grunt.registerTask('build', [
-    'concurrent:concurrentCleanTask',
-    'copy:copyTask',
-    'concurrent:concurrentMinTask',
-  ]);
+    // run build product version
+    grunt.registerTask('allbuild', [         // build folder
+      'concurrent:concurrentAllCleanTask',   // clean build and sass compil
+      'postcss',                             // autoprefix
+      'copy:copyAllTask',                    // copy all files from source (without icon-*.svg)
+      'concurrent:concurrentAllMinTask',     // min all files (without min svg)
+    ]);
 
-  // run browser for test build product version only
-  grunt.registerTask('test', [
-    'browserSync:browserSyncBuildTask',
-  ]);
+    // run build product version without image
+    grunt.registerTask('build', [            // build folder
+      'concurrent:concurrentCleanTask',      // clean build (without image folder) and sass compil
+      'postcss',                             // autoprefix
+      'copy:copyTask',                       // copy all files from source (without image folder)
+      'concurrent:concurrentMinTask',        // min files html css js (without image)
+    ]);
 
-  // individual task
+    // run browser for test build product version only
+    grunt.registerTask('test', [             // build folder
+      'browserSync:browserSyncBuildTask',    // server
+    ]);
 
-  // individual task run font convert for dev
-  grunt.registerTask('font', [
-    'concurrent:concurrentfontTask',
-  ]);
+    // individual task
 
-  // individual task run webp convert and svgmin for dev
-  grunt.registerTask('images', [
-    'concurrent:concurrentImagesTask',
-  ]);
+    // individual task run font convert for dev
+    grunt.registerTask('font', [             // source folder
+      'concurrent:concurrentfontTask',       // font gen
+    ]);
 
-  // individual task run svgmin and svgsprite for dev
-  grunt.registerTask('sprite', [
-    'image:imageSvgMinTask',
-    'svgstore:svgstoreTask',
-  ]);
+    // individual task run webp convert and svgmin for dev
+    grunt.registerTask('images', [           // source folder
+      'concurrent:concurrentImagesTask',     // webp gen and svg min
+    ]);
 
+    // individual task run svgmin and svgsprite for dev
+    grunt.registerTask('sprite', [           // source folder
+      'image:imageSvgMinTask',               // svg min
+      'svgstore:svgstoreTask',               // svg sprite
+    ]);
 
-};
+  };
 
 /*
   console command:
@@ -296,17 +343,23 @@ module.exports = function (grunt) {
 
  - next step: grunt start
 
-    the command compil style, source map and will deploy a live development
+    the command compil style, autoprefix, source map and will deploy a live development
     server — in source folder for dev
 
-  - next step: grunt build
+  - next step: grunt allbuild
 
     the command build pruduct version, copy files to build folder,
     compress html, css, js, img  in sourve folder for dev
 
+
   - next step: grunt test
 
     the command run server for test only — in build folder for test
+
+ - command: grunt build
+
+    images are usually prepared and compressed once,
+    so you need to be able to do the assembly without this task
 
  - command: grunt font
 

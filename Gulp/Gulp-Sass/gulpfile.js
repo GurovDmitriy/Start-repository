@@ -102,7 +102,6 @@ gulp.task('imageminify', function() {
       jpegRecompress: ['--strip', '--quality', 'medium', '--min', 40, '--max', 80],
       mozjpeg: ['-optimize', '-progressive'],
       gifsicle: ['--optimize'],
-      svgo: ['--enable', 'cleanupIDs', '--disable', 'convertColors']
     }))
     .pipe(gulp.dest('build/image'));
 });
@@ -138,13 +137,19 @@ gulp.task('fontwoff2', function(){
     .pipe(gulp.dest('source/font/woff2'));
 });
 
-// delete build folder
+// delete all build folder
 
 gulp.task('clean', function() {
   return del('build');
 });
 
-// copy files for build
+// delete build folder without image
+
+gulp.task('clean', function() {
+  return del(['build/*', 'build/image']);
+});
+
+// copy all files for build
 
 gulp.task('copy', function() {
   return gulp.src([
@@ -159,69 +164,98 @@ gulp.task('copy', function() {
     .pipe(gulp.dest('build'));
 });
 
-// grunt basic
+// copy files for build without image
 
-exports.basic = gulp.series(
+gulp.task('copy', function() {
+  return gulp.src([
+    'source/*.html',
+    'source/css/*.css',
+    'source/js/*.js',
+    '!source/image/icon-*.svg',
+    'source/font/woff/*',
+    'source/font/woff2/*',
+    ], {base: 'source'})
+    .pipe(gulp.dest('build'));
+});
+
+// gulp basic
+
+exports.basic = gulp.series(          // source folder
   gulp.parallel(
-    'fontwoff',
+    'fontwoff',                       // fontgen webp svgmin
     'fontwoff2',
     'webpgen',
     'svgminify'
   ),
-  'sprite'
+  'sprite'                            // svgsprite
 );
 
-// grunt start
+// gulp start
 
-exports.start = gulp.series(
-  'style',
-  'serve'
+exports.start = gulp.series(          // source folder
+  'style',                            // style autoprefix source map
+  'serve'                             // server watcher
 );
 
-// grunt build
+// gulp allbuild
 
-exports.build = gulp.series(
+exports.allbuild = gulp.series(       // build folder
   gulp.parallel(
-    'style',
-    'clean'
+    'style',                          // style autoprefix source map, clean all build
+    'allclean'
   ),
-  'copy',
+  'allcopy',                          // copy all files for build (without icon-*.svg)
   gulp.parallel(
-    'htmlminify',
+    'htmlminify',                     // min html css js image (without svg)
     'cssminify',
     'jsminify',
     'imageminify'
   )
 );
 
-// grunt test
+// gulp build
 
-exports.test = gulp.series(
-  'servebuild'
+exports.build = gulp.series(          // build folder
+  gulp.parallel(
+    'style',                          // style autoprefix source map, clean build (without image)
+    'clean'
+  ),
+  'copy',                             // copy files for build (without icon-*.svg, image)
+  gulp.parallel(
+    'htmlminify',                     // min html css js (without svg, image)
+    'cssminify',
+    'jsminify',
+  )
 );
 
-// grunt font
+// gulp test
 
-exports.font = gulp.series(
+exports.test = gulp.series(           // build folder
+  'servebuild'                        // server for test pruduct only
+);
+
+// gulp font
+
+exports.font = gulp.series(           // source folder
   gulp.parallel(
-    'fontwoff',
+    'fontwoff',                       // font gen individual command
     'fontwoff2'
   )
 );
 
-// grunt image
+// gulp image
 
-exports.image = gulp.series(
+exports.image = gulp.series(          // source folder
   gulp.parallel(
-    'webpgen',
+    'webpgen',                        // webp svgmin individual command
     'svgminify'
   )
 );
 
-// grunt spritesvg
+// gulp spritesvg
 
-exports.spritesvg = gulp.series(
-  'sprite'
+exports.spritesvg = gulp.series(      // source folder
+  'sprite'                            // svg sprite individual command
 );
 
 /*
@@ -237,14 +271,20 @@ exports.spritesvg = gulp.series(
     the command compil style, autoprefix, source map and will deploy a live development
     server — in source folder for dev
 
-  - next step: gulp build
+  - next step: gulp allbuild
 
     the command build pruduct version, copy files to build folder,
     compress html, css, js, img  in sourve folder for dev
 
+
   - next step: gulp test
 
     the command run server for test only — in build folder for test
+
+ - command: grunt build
+
+    images are usually prepared and compressed once,
+    so you need to be able to do the assembly without this task
 
  - command: gulp font
 

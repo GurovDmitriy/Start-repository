@@ -1,9 +1,11 @@
-# Grunt Less Start Repository
+# Grunt Sass Start Repository
 
 - less compilation
 - html compression
 - css compression
 - js compression
+- autoprefix
+- source map
 - webp generating
 - image compression
 - svg compression
@@ -21,11 +23,11 @@ builds sprite svg from `icon-*.svg` — in souce folder for dev
 
 next step: `grunt start`
 
-the command compil style, source map and will deploy a live development
+the command compil style, autoprefix, source map and will deploy a live development
 server — in source folder for dev
 
 
-next step: `grunt build`
+next step: `grunt allbuild`
 
 the command build pruduct version, copy files to build folder,
 compress html, css, js, img  in sourve folder for dev
@@ -34,6 +36,10 @@ compress html, css, js, img  in sourve folder for dev
 next step: `grunt test`
 
 the command run server for test only — in build folder for test
+
+command: `grunt build`
+images are usually prepared and compressed once,
+so you need to be able to do the assembly without this task
 
 
 command: `grunt font`
