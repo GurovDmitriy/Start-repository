@@ -1,3 +1,3 @@
 'use strict';
 
-console.log('Hi Java Script');
+console.log('Hello Java Script');
