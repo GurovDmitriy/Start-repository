@@ -139,19 +139,19 @@ gulp.task('fontwoff2', function(){
 
 // delete all build folder
 
-gulp.task('clean', function() {
+gulp.task('allclean', function() {
   return del('build');
 });
 
 // delete build folder without image
 
 gulp.task('clean', function() {
-  return del(['build/*', 'build/image']);
+  return del(['build/*', '!build/image']);
 });
 
 // copy all files for build
 
-gulp.task('copy', function() {
+gulp.task('allcopy', function() {
   return gulp.src([
     'source/*.html',
     'source/css/*.css',
@@ -243,9 +243,9 @@ exports.font = gulp.series(           // source folder
   )
 );
 
-// gulp image
+// gulp picture
 
-exports.image = gulp.series(          // source folder
+exports.picture = gulp.series(          // source folder
   gulp.parallel(
     'webpgen',                        // webp svgmin individual command
     'svgminify'
@@ -281,7 +281,7 @@ exports.spritesvg = gulp.series(      // source folder
 
     the command run server for test only — in build folder for test
 
- - command: grunt build
+ - command: gulp build
 
     images are usually prepared and compressed once,
     so you need to be able to do the assembly without this task
@@ -291,7 +291,7 @@ exports.spritesvg = gulp.series(      // source folder
     the command individual for generates fonts
     wff, woff2 — in source folder for dev
 
- - command: gulp image
+ - command: gulp picture
 
     the command individual for generates
     webp, compresses svg — in source folder for dev

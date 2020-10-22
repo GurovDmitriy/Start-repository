@@ -245,7 +245,7 @@ exports.font = gulp.series(           // source folder
   )
 );
 
-// gulp image
+// gulp picture
 
 exports.picture = gulp.series(          // source folder
   gulp.parallel(

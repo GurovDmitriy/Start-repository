@@ -15,47 +15,47 @@
 
 console command:
 
-on first start run: `grunt basic`
+on first start run: `gulp basic`
 
 the command generates fonts wff woff2, webp, compresses svg,
 builds sprite svg from `icon-*.svg` — in souce folder for dev
 
 
-next step: `grunt start`
+next step: `gulp start`
 
 the command compil style, autoprefix, source map, and will deploy a live development
 server — in source folder for dev
 
 
-next step: `grunt allbuild`
+next step: `gulp allbuild`
 
 the command build pruduct version, copy files to build folder,
 compress html, css, js, img  in sourve folder for dev
 
 
-next step: `grunt test`
+next step: `gulp test`
 
 the command run server for test only — in build folder for test
 
-command: `grunt build`
+command: `gulp build`
 
 images are usually prepared and compressed once,
 so you need to be able to do the assembly without this task
 
 
-command: `grunt font`
+command: `gulp font`
 
 the command individual for generates fonts
 wff, woff2 — in source folder for dev
 
 
-command: `grunt image`
+command: `gulp picture`
 
 the command individual for generates
 webp, compresses svg — in source folder for dev
 
 
-command: `grunt spritesvg`
+command: `gulp spritesvg`
 
 the command individual for compresses svg,
 builds sprite svg from `icon-*.svg` — in source folder for dev
