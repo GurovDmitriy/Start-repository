@@ -449,6 +449,7 @@ button:focus:not(:focus-visible) {
           transform: translate(-50%, 0);
 }
 .header {
+  display: inline-grid;
   font-family: 'Open-Sans', 'Arial', sans-serif;
   min-height: 100vh;
   background-color: lightgrey;

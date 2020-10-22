@@ -314,7 +314,7 @@ module.exports = function (grunt) {
   ]);
 
   // individual task run webp convert and svgmin for dev
-  grunt.registerTask('images', [           // source folder
+  grunt.registerTask('picture', [          // source folder
     'concurrent:concurrentImagesTask',     // webp gen and svg min
   ]);
 
@@ -359,7 +359,7 @@ module.exports = function (grunt) {
     the command individual for generates fonts
     wff, woff2 — in source folder for dev
 
- - command: grunt images
+ - command: grunt picture
 
     the command individual for generates
     webp, compresses svg — in source folder for dev

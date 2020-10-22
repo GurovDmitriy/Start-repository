@@ -27,7 +27,7 @@ the command compil style, autoprefix, source map, and will deploy a live develop
 server — in source folder for dev
 
 
-next step: `grunt Allbuild`
+next step: `grunt allbuild`
 
 the command build pruduct version, copy files to build folder,
 compress html, css, js, img  in sourve folder for dev
@@ -38,6 +38,7 @@ next step: `grunt test`
 the command run server for test only — in build folder for test
 
 command: `grunt build`
+
 images are usually prepared and compressed once,
 so you need to be able to do the assembly without this task
 
@@ -48,7 +49,7 @@ the command individual for generates fonts
 wff, woff2 — in source folder for dev
 
 
-command: `grunt images`
+command: `grunt picture`
 
 the command individual for generates
 webp, compresses svg — in source folder for dev
