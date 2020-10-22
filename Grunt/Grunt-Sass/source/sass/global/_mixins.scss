@@ -1,0 +1,110 @@
+// Content centered
+
+@mixin container($width) {
+  width: $width;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+// Custom focus
+
+@mixin focusCustom($color) {
+  outline: 2px solid $color;
+}
+
+
+// Font mobile mixins
+
+@mixin fontTitleMobile() {
+  font-size: 42px;
+  line-height: 64px;
+}
+
+@mixin fontH1Mobile() {
+  font-size: 33px;
+  line-height: 51px;
+}
+
+@mixin fontH2Mobile() {
+  font-size: 26px;
+  line-height: 40px;
+}
+
+@mixin fontH3Mobile() {
+  font-size: 20px;
+  line-height: 32px;
+}
+
+@mixin fontTextMobile() {
+  font-size: 16px;
+  line-height: 26px;
+}
+
+@mixin fontTextSmallMobile() {
+  font-size: 13px;
+  line-height: 21px;
+}
+
+// Font tablet mixins
+
+@mixin fontTitleTablet() {
+  font-size: 47px;
+  line-height: 73px;
+}
+
+@mixin fontH1Tablet() {
+  font-size: 37px;
+  line-height: 59px;
+}
+
+@mixin fontH2Tablet() {
+  font-size: 29px;
+  line-height: 47px;
+}
+
+@mixin fontH3Tablet() {
+  font-size: 23px;
+  line-height: 39px;
+}
+
+@mixin fontTextTablet() {
+  font-size: 18px;
+  line-height: 30px;
+}
+
+@mixin fontTextSmallTablet() {
+  font-size: 14px;
+  line-height: 26px;
+}
+
+// Font desctop mixins
+
+@mixin fontTitleDesktop() {
+  font-size: 52px;
+  line-height: 84px;
+}
+
+@mixin fontH1Desktop() {
+  font-size: 41px;
+  line-height: 69px;
+}
+
+@mixin fontH2Desktop() {
+  font-size: 32px;
+  line-height: 54px;
+}
+
+@mixin fontH3Desktop() {
+  font-size: 25px;
+  line-height: 45px;
+}
+
+@mixin fontTextDesktop() {
+  font-size: 20px;
+  line-height: 36px;
+}
+
+@mixin fontTextSmallDesktop() {
+  font-size: 16px;
+  line-height: 32px;
+}

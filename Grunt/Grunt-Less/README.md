@@ -4,6 +4,8 @@
 - html compression
 - css compression
 - js compression
+- autoprefix
+- source map
 - webp generating
 - image compression
 - svg compression
@@ -21,7 +23,7 @@ builds sprite svg from `icon-*.svg` — in souce folder for dev
 
 next step: `grunt start`
 
-the command compil style, source map and will deploy a live development
+the command compil style, autoprefix, source map, and will deploy a live development
 server — in source folder for dev
 
 

@@ -159,53 +159,26 @@ gulp.task('copy', function() {
     .pipe(gulp.dest('build'));
 });
 
-/* dev zone ---------- */
+// grunt basic
 
-/*
-  create font woff woff2 from ttf
-  console command:
-    $ gulp font
-*/
-
-exports.font = gulp.series(
+exports.basic = gulp.series(
   gulp.parallel(
     'fontwoff',
-    'fontwoff2'
-  )
-);
-
-/*
-  create webp, minify svg and create svg sprite
-  console command:
-    $ gulp image
-*/
-
-exports.image = gulp.series(
-  gulp.parallel(
+    'fontwoff2',
     'webpgen',
     'svgminify'
   ),
   'sprite'
 );
 
-/*
-  open server for dev
-  console command:
-    $ gulp test
-*/
+// grunt start
 
 exports.start = gulp.series(
   'style',
   'serve'
 );
 
-/* product zone ---------- */
-
-/*
-  create product version
-  console command:
-    $ gulp build
-*/
+// grunt build
 
 exports.build = gulp.series(
   gulp.parallel(
@@ -221,12 +194,79 @@ exports.build = gulp.series(
   )
 );
 
-/*
-  open server for test build version only
-  console command:
-    $ gulp test
-*/
+// grunt test
 
 exports.test = gulp.series(
   'servebuild'
 );
+
+// grunt font
+
+exports.font = gulp.series(
+  gulp.parallel(
+    'fontwoff',
+    'fontwoff2'
+  )
+);
+
+// grunt image
+
+exports.image = gulp.series(
+  gulp.parallel(
+    'webpgen',
+    'svgminify'
+  )
+);
+
+// grunt spritesvg
+
+exports.spritesvg = gulp.series(
+  'sprite'
+);
+
+/*
+  console command:
+
+ - on first start run: gulp basic
+
+    the command generates fonts wff woff2, webp, compresses svg,
+    builds sprite svg from icon-*.svg — in souce folder for dev
+
+ - next step: gulp start
+
+    the command compil style, autoprefix, source map and will deploy a live development
+    server — in source folder for dev
+
+  - next step: gulp build
+
+    the command build pruduct version, copy files to build folder,
+    compress html, css, js, img  in sourve folder for dev
+
+  - next step: gulp test
+
+    the command run server for test only — in build folder for test
+
+ - command: gulp font
+
+    the command individual for generates fonts
+    wff, woff2 — in source folder for dev
+
+ - command: gulp image
+
+    the command individual for generates
+    webp, compresses svg — in source folder for dev
+
+ - command: gulp spritesvg
+
+    the command individual for compresses svg,
+    builds sprite svg from icon-*.svg — in source folder for dev
+
+ - when developing
+    open the second tab in the browser
+    http: // localhost: 3001 /
+    to open the server settings.
+    You can turn on outline highlighting or grid for debugging
+    in the debag section
+
+ - enjoy
+*/

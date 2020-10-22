@@ -1,11 +1,9 @@
-# Gulp Less Start Repository
+# Grunt Less Start Repository
 
 - less compilation
 - html compression
 - css compression
 - js compression
-- autoprefix
-- source map
 - webp generating
 - image compression
 - svg compression
@@ -23,7 +21,7 @@ builds sprite svg from `icon-*.svg` — in souce folder for dev
 
 next step: `grunt start`
 
-the command compil style, autoprefix, source map, and will deploy a live development
+the command compil style, source map and will deploy a live development
 server — in source folder for dev
 
 
@@ -44,13 +42,13 @@ the command individual for generates fonts
 wff, woff2 — in source folder for dev
 
 
-command: `grunt image`
+command: `grunt images`
 
 the command individual for generates
 webp, compresses svg — in source folder for dev
 
 
-command: `grunt spritesvg`
+command: `grunt sprite`
 
 the command individual for compresses svg,
 builds sprite svg from `icon-*.svg` — in source folder for dev

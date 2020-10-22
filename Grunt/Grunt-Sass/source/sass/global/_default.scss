@@ -1,0 +1,136 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* Box model */
+
+html {
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+/* Body */
+
+body {
+  display: flex;
+  flex-direction: column;
+
+  min-width: $mobileWidth;
+  max-width: 100%;
+  min-height: 100vh;
+
+  font-family: 'Open-Sans', 'Arial', sans-serif;
+  @include fontTextMobile;
+  font-weight: 400;
+  font-style: normal;
+  color: #000000;
+  color: var(--colorBlack, #000000);
+
+  @media (min-width: $tabletWidth) {
+    @include fontTextTablet;
+  }
+
+  @media (min-width: $desktopWidth) {
+    @include fontTextDesktop;
+  }
+}
+
+/* Tag */
+
+p {
+  margin-top: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+ul {
+  padding: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+
+  list-style: none;
+}
+
+img {
+  line-height: 0;
+}
+
+picture {
+  width: 100%;
+}
+
+figure {
+  margin: 0;
+
+  line-height: 0;
+}
+
+/* Sr-only */
+
+.sr-only {
+  position: absolute;
+
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+
+  border: 0;
+
+  clip: rect(0, 0, 0, 0);
+  overflow: hidden;
+}
+
+/* Focus custom */
+
+.js-focus-visible :focus:not(.focus-visible) {
+  outline: none;
+}
+
+button:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.js-focus-visible .focus-visible {
+  @include focusCustom(var(--colorBlack));
+}
+
+/* Skip link */
+
+.skip-link {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  z-index: 100;
+
+  padding: 10px;
+
+  color: #ffffff;
+  color: var(--colorWhite, #ffffff);
+
+  background-color: #000000;
+  background-color: var(--colorBlack, #000000);
+
+  transform: translate(-50%, -100%);
+  transition: transform 0.4s;
+}
+
+.skip-link:focus {
+  transform: translate(-50%, 0);
+}

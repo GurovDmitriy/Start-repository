@@ -1,0 +1,48 @@
+{
+  "name": "grunt-less-start-repository",
+  "version": "1.0.0",
+  "description": "grunt less start repository",
+  "main": "Grunfile.js",
+  "scripts": {
+    "test": "test"
+  },
+  "devDependencies": {
+    "autoprefixer": "^9.7.6",
+    "eslint": "^7.6.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "grunt": "^1.1.0",
+    "grunt-browser-sync": "^2.2.0",
+    "grunt-concurrent": "^3.0.0",
+    "grunt-contrib-clean": "^2.0.0",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-cssmin": "^3.0.0",
+    "grunt-contrib-htmlmin": "^3.1.0",
+    "grunt-contrib-less": "^2.0.0",
+    "grunt-contrib-uglify": "^4.0.1",
+    "grunt-contrib-uglify-es": "^3.3.0",
+    "grunt-contrib-watch": "^1.1.0",
+    "grunt-cwebp": "^3.0.2",
+    "grunt-image": "^6.1.0",
+    "grunt-svgstore": "^2.0.0",
+    "grunt-ttf2woff": "^1.0.1",
+    "grunt-ttf2woff2": "^1.0.1",
+    "less-plugin-autoprefix": "^2.0.0",
+    "less-plugin-clean-css": "^1.5.1",
+    "load-grunt-tasks": "^5.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GurovDmitriy/Start-repository.git"
+  },
+  "keywords": [
+    "less",
+    "grunt"
+  ],
+  "author": "Gurov Dmitriy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GurovDmitriy/Start-repository/issues"
+  },
+  "homepage": "https://github.com/GurovDmitriy/Start-repository#readme"
+}

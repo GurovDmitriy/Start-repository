@@ -296,7 +296,7 @@ module.exports = function (grunt) {
 
  - next step: grunt start
 
-    the command compil style, autoprefix, source map and will deploy a live development
+    the command compil style, source map and will deploy a live development
     server — in source folder for dev
 
   - next step: grunt build
