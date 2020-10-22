@@ -385,7 +385,7 @@ figure {
   line-height: 0;
 }
 /* Sr-only */
-.Sr-only {
+.sr-only {
   position: absolute;
   width: 1px;
   height: 1px;
