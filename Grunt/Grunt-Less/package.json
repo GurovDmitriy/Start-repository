@@ -4,7 +4,7 @@
   "description": "grunt less start repository",
   "main": "Grunfile.js",
   "scripts": {
-    "test": "test"
+    "build": "grunt fullstart && grunt fullbuild"
   },
   "devDependencies": {
     "autoprefixer": "^9.7.6",
@@ -38,6 +38,9 @@
   "keywords": [
     "less",
     "grunt"
+  ],
+  "browserslist": [
+    "defaults"
   ],
   "author": "Gurov Dmitriy",
   "license": "ISC",

@@ -3,9 +3,9 @@ module.exports = function (grunt) {
 
   grunt.initConfig({
 
-    // server
+    // browser for dev
     browserSync: {
-      browserSyncTask: {
+      serverDev: {
         bsFiles: {
           src: ['source/*.html', 'source/css/*.css', 'source/js/*.js'],
         },
@@ -14,8 +14,8 @@ module.exports = function (grunt) {
           watchTask: true,
         },
       },
-      // server for product version test only
-      browserSyncBuildTask: {
+      // browser for production test
+      serverTest: {
         options: {
           server: 'build/',
         },
@@ -24,15 +24,15 @@ module.exports = function (grunt) {
 
     // watcher
     watch: {
-      watchStyleTask: {
+      watch: {
         files: ['source/less/**/*.less'],
-        tasks: ['less:lessTask'],
+        tasks: ['less:cssCompil'],
       },
     },
 
-    // less to css autoprefixer source map
+    // css copmil
     less: {
-      lessTask: {
+      cssCompil: {
         options: {
           relativeUrls: true,
           plugins: [
@@ -50,9 +50,9 @@ module.exports = function (grunt) {
       },
     },
 
-    // cssmin for build
+    // css minify for production
     cssmin: {
-      cssminTask: {
+      cssMin: {
         files: [{
           expand: true,
           cwd: 'build/css/',
@@ -62,9 +62,9 @@ module.exports = function (grunt) {
       },
     },
 
-    // js min for build
+    // js minify for production
     uglify: {
-      uglifyTask: {
+      jsMin: {
         files: [{
           expand: true,
           cwd: 'build/js/',
@@ -74,26 +74,26 @@ module.exports = function (grunt) {
       },
     },
 
-    // svg sprite for dev
+    // svg sprite
     svgstore: {
       options: {
         includeTitleElement: false,
-        prefix : '',
+        prefix : 'icon-',
         svg: {
           viewBox: '0 0 100 100',
           xmlns: 'http://www.w3.org/2000/svg',
         },
       },
-      svgstoreTask: {
+      svgSprite: {
         files: {
-          'source/image/sprite.svg': ['source/image/icon-*.svg'],
+          'source/image/sprite.svg': ['source/image/*.svg', '!source/image/sprite.svg'],
         },
       },
     },
 
-    // webp
+    // webp convert
     cwebp: {
-      cwebpTask: {
+      webpGen: {
         options: {
           q: 70,
         },
@@ -106,9 +106,9 @@ module.exports = function (grunt) {
       },
     },
 
-    // image min for build
+    // image minify
     image: {
-      imageMinTask: {
+      imageMin: {
         options: {
           optipng: ['-i 1', '-strip all', '-fix', '-o7', '-force'],
           pngquant: ['--speed=1', '--force', 256],
@@ -117,17 +117,16 @@ module.exports = function (grunt) {
           mozjpeg: ['-optimize', '-progressive'],
           guetzli: ['--quality', 85],
           gifsicle: ['--optimize'],
-          svgo: ['--enable', 'cleanupIDs', '--disable', 'convertColors'],
         },
         files: [{
           expand: true,
           cwd: 'build/image/',
-          src: ['*.{png,jpg,gif,svg}', '!sprite.svg'],
+          src: ['*.{png,jpg,gif}'],
           dest: 'build/image/',
         }],
       },
-      // svg min for dev
-      imageSvgMinTask: {
+      // svg minify
+      svgMin: {
         options: {
           svgo: ['--enable', 'cleanupIDs', '--disable', 'convertColors'],
         },
@@ -140,9 +139,9 @@ module.exports = function (grunt) {
       },
     },
 
-    // html min for build
+    // html minify
     htmlmin: {
-      htmlMinTask: {
+      htmlMin: {
         options: {
           removeComments: true,
           collapseWhitespace: true,
@@ -156,35 +155,44 @@ module.exports = function (grunt) {
       },
     },
 
-    // font to woff from ttf for dev
+    // woff convert
     ttf2woff: {
-      ttf2woffTask: {
+      fontWoff: {
         src: ['source/font/ttf/*.ttf'],
         dest: 'source/font/woff/',
       },
     },
 
-    // font to woff2 from ttf for dev
+    // woff2 convert
     ttf2woff2: {
-      ttf2woff2Task: {
+      fontWoff2: {
         src: ['source/font/ttf/*.ttf'],
         dest: 'source/font/woff2/',
       },
     },
 
-    // clean build
+    // clean all build
     clean: {
-      cleanAllTask: {
+      cleanFull: {
         src: ['build/'],
       },
-      cleanTask: {
+      // clean build without images
+      clean: {
         src: ['build/*', '!build/image'],
       },
+      // clean webp for dev refresh
+      cleanWebp: {
+        src: ['source/image/*.webp'],
+      },
+      // clean font fo dev refresh
+      cleanFont: {
+        src: ['source/font/*', '!source/font/ttf'],
+      },
     },
 
-    // copy for build
+    // copy all for production
     copy: {
-      copyAllTask: {
+      copyFull: {
         files: [
           {
             expand: true,
@@ -197,18 +205,19 @@ module.exports = function (grunt) {
             expand: true,
             cwd: 'source/',
             src: [
-              'css/style.css',
+              'font/woff/**',
+              'font/woff2/**',
+              'css/*.css',
               'js/*.js',
-              'font/woff/*',
-              'font/woff2/*',
-              'image/*',
-              '!image/icon-*.svg',
+              'image/**',
+              '!image/*.svg',
             ],
             dest: 'build/',
           },
         ],
       },
-      copyTask: {
+      // copy all without images for production
+      copy: {
         files: [
           {
             expand: true,
@@ -221,10 +230,10 @@ module.exports = function (grunt) {
             expand: true,
             cwd: 'source/',
             src: [
-              'css/style.css',
+              'font/woff',
+              'font/woff2',
+              'css/*.css',
               'js/*.js',
-              'font/woff/*',
-              'font/woff2/*',
             ],
             dest: 'build/',
           },
@@ -232,40 +241,27 @@ module.exports = function (grunt) {
       },
     },
 
-    // for parallel config task
+    // parallel config task
     concurrent: {
-      concurrentBasicTask: [
-        'ttf2woff:ttf2woffTask',
-        'ttf2woff2:ttf2woff2Task',
-        'cwebp:cwebpTask',
-        'image:imageSvgMinTask',
+      parallelCleanFontWebp: [
+        'clean:cleanFont',
+        'clean:cleanWebp',
       ],
-      concurrentImagesTask: [
-        'cwebp:cwebpTask',
-        'image:imageSvgMinTask',
+      parallelFullGen: [
+        'less:cssCompil',
+        'ttf2woff:fontWoff',
+        'ttf2woff2:fontWoff2',
+        'cwebp:webpGen',
+        'image:svgMin',
       ],
-      concurrentfontTask: [
-        'ttf2woff:ttf2woffTask',
-        'ttf2woff2:ttf2woff2Task',
-        ],
-      concurrentAllCleanTask: [
-      'less:lessTask',
-      'clean:cleanAllTask',
+      parallelFont: [
+        'ttf2woff:fontWoff',
+        'ttf2woff2:fontWoff2',
       ],
-      concurrentCleanTask: [
-      'less:lessTask',
-      'clean:cleanTask',
-      ],
-      concurrentAllMinTask: [
-        'htmlmin:htmlMinTask',
-        'cssmin:cssminTask',
-        'uglify:uglifyTask',
-        'image:imageMinTask',
-      ],
-      concurrentMinTask: [
-        'htmlmin:htmlMinTask',
-        'cssmin:cssminTask',
-        'uglify:uglifyTask',
+      parallelAllMin: [
+        'htmlmin:htmlMin',
+        'cssmin:cssMin',
+        'uglify:jsMin',
       ],
       options: {
         logConcurrentOutput: true,
@@ -274,108 +270,100 @@ module.exports = function (grunt) {
 
   });
 
-  // basic task run font and webp convert svgmin and svgsprite for dev
-  grunt.registerTask('basic', [            // source folder
-    'concurrent:concurrentBasicTask',      // fontgen webp and svgmin
-    'svgstore:svgstoreTask',               // svgsprite
+  grunt.registerTask('fullstart', [
+    'concurrent:parallelCleanFontWebp',
+    'concurrent:parallelFullGen',
+    'svgstore:svgSprite',
   ]);
 
-  // run compil style browser and watcher for dev
-  grunt.registerTask('start', [            // source folder
-    'less:lessTask',                       // less compil, autoprefix
-    'browserSync:browserSyncTask',         // server
-    'watch:watchStyleTask',                // watcher
+
+  grunt.registerTask('start', [
+    'less:cssCompil',
+    'browserSync:serverDev',
+    'watch:watch',
   ]);
 
-  // run build product version
-  grunt.registerTask('allbuild', [         // build folder
-    'concurrent:concurrentAllCleanTask',   // clean build and less compil, autoprefix
-    'copy:copyAllTask',                    // copy all files from source (without icon-*.svg)
-    'concurrent:concurrentAllMinTask',     // min all files (without min svg)
+
+  grunt.registerTask('imgstart', [
+    'clean:cleanWebp',
+    'cwebp:webpGen',
   ]);
 
-  // run build product version without image
-  grunt.registerTask('build', [            // build folder
-    'concurrent:concurrentCleanTask',      // clean build (without image folder) and less compil, autoprefix
-    'copy:copyTask',                       // copy all files from source (without image folder)
-    'concurrent:concurrentMinTask',        // min files html css js (without image)
+
+  grunt.registerTask('svgstart', [
+    'image:svgMin',
+    'svgstore:svgSprite',
   ]);
 
-  // run browser for test build product version only
-  grunt.registerTask('test', [             // build folder
-    'browserSync:browserSyncBuildTask',    // server
+
+  grunt.registerTask('fontstart', [
+    'clean:cleanFont',
+    'concurrent:parallelFont',
   ]);
 
-  // individual task
 
-  // individual task run font convert for dev
-  grunt.registerTask('font', [             // source folder
-    'concurrent:concurrentfontTask',       // font gen
+  grunt.registerTask('fullbuild', [
+    'clean:cleanFull',
+    'copy:copyFull',
+    'concurrent:parallelAllMin',
+    'image:imageMin',
   ]);
 
-  // individual task run webp convert and svgmin for dev
-  grunt.registerTask('picture', [          // source folder
-    'concurrent:concurrentImagesTask',     // webp gen and svg min
+
+  grunt.registerTask('build', [
+    'clean:clean',
+    'copy:copy',
+    'concurrent:parallelAllMin',
   ]);
 
-  // individual task run svgmin and svgsprite for dev
-  grunt.registerTask('sprite', [           // source folder
-    'image:imageSvgMinTask',               // svg min
-    'svgstore:svgstoreTask',               // svg sprite
+
+  grunt.registerTask('testbuild', [
+    'browserSync:serverTest',
   ]);
 
 };
 
 /*
+  Grunt
+
+  for development
+
+  first launch after download repository
   console command:
 
- - on first start run: grunt basic
+  - `npm i`          - install devDependencies
+  - `npm run build`  - full update dev and build
 
-    the command generates fonts wff woff2, webp, compresses svg,
-    builds sprite svg from icon-*.svg — in souce folder for dev
+  daily launch
+  console command:
 
- - next step: grunt start
-
-    the command compil style, autoprefix, source map and will deploy a live development
-    server — in source folder for dev
-
-  - next step: grunt allbuild
-
-    the command build pruduct version, copy files to build folder,
-    compress html, css, js, img  in sourve folder for dev
+  - `grunt fullstart` - first start or full update for development (css, webp, svgmin, svgsprite, fontgen)
+  - `grunt start`     - compilation of styles and live reload server
+  - `grunt imgstart`  - webp update and generation
+  - `grunt svgstart`  - svg update minify and svgsprite
+  - `grunt fontstart` - font update convert to woff & woff2
 
 
-  - next step: grunt test
+  for production
 
-    the command run server for test only — in build folder for test
+  Compressing images is a long task,
+  it makes no sense to run it every time,
+  when you update the build without changing
+  the jpg png webp, so there are two commands - fullbuild and build
 
- - command: grunt build
+  console command:
 
-    images are usually prepared and compressed once,
-    so you need to be able to do the assembly without this task
+  - `grunt fullbuild` - full build production version and min all files
+  - `grunt build`     - copy font, copy and minify html, css, js
+  - `grunt testbuild` - server for test only (for example for testing lighthouse)
 
- - command: grunt font
+  when developing:
 
-    the command individual for generates fonts
-    wff, woff2 — in source folder for dev
+  open the second tab in the browser
+  to open the server settings.
+  You can turn on outline highlighting or grid for debugging
+  in the debag section
 
- - command: grunt picture
+  enjoy
 
-    the command individual for generates
-    webp, compresses svg — in source folder for dev
-
- - command: grunt sprite
-
-    the command individual for compresses svg,
-    builds sprite svg from icon-*.svg — in source folder for dev
-
- - when developing
-    open the second tab in the browser
-    http: // localhost: 3001 /
-    to open the server settings.
-    You can turn on outline highlighting or grid for debugging
-    in the debag section
-
- - enjoy
 */
-

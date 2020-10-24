@@ -45,5 +45,13 @@ Thumbs.db
 *.pdf
 *.psd
 *.sublime*
-node_modules/
-build/
+**/source/image/sprite.svg
+**/source/image/*.webp
+**/source/css
+**/source/font/woff
+**/source/font/woff2
+**/source/image/sprite.svg
+**/source/image/*.webp
+**/node_modules
+**/build
+

@@ -1,12 +1,13 @@
-const gulp = require('gulp')
+const gulp = require('gulp');
 const rename = require('gulp-rename');
 const del = require('del');
 
 const browserSync = require('browser-sync').create();
+
 const sass = require('gulp-sass');
+sass.compiler = require('node-sass');
 const sourcemaps = require('gulp-sourcemaps');
 const autoprefixer = require('gulp-autoprefixer');
-sass.compiler = require('node-sass');
 
 const htmlmin = require('gulp-htmlmin');
 const csso = require('gulp-csso');
@@ -16,37 +17,33 @@ const gulpTerser = require('gulp-terser');
 const webp = require('gulp-webp');
 const image = require('gulp-image');
 const svgstore = require('gulp-svgstore');
+const inject = require('gulp-inject');
 
 const ttf2woff = require('gulp-ttf2woff');
 const ttf2woff2 = require('gulp-ttf2woff2');
 
-// server dev
 
-gulp.task('serve', function(done) {
+/*----------------------------------------*/
+/* tasks for development on source folder */
+/*----------------------------------------*/
+
+
+/* server and watcher for dev */
+
+gulp.task('serverDev', function(done) {
   browserSync.init({
     server: {
        baseDir: 'source'
     },
   });
   done();
-  gulp.watch('source/sass/**/*.scss', gulp.series('style'));
+  gulp.watch('source/sass/**/*.scss', gulp.series('cssCompil'));
   gulp.watch(['source/*.html', 'source/js/*.js']).on('change', browserSync.reload);
 });
 
-// server build for test only
+/* style css compile, autoprefixer, source map */
 
-gulp.task('servebuild', function(done) {
-  browserSync.init({
-    server: {
-       baseDir: 'build'
-    },
-  });
-  done();
-});
-
-// style autoprefixer source map
-
-gulp.task('style', function() {
+gulp.task('cssCompil', function() {
   return gulp.src('source/sass/**/*.scss')
     .pipe(sourcemaps.init())
     .pipe(sass().on('error', sass.logError))
@@ -56,9 +53,75 @@ gulp.task('style', function() {
     .pipe(browserSync.stream());
 });
 
-// html minify
+/* webp gen */
 
-gulp.task('htmlminify', function() {
+gulp.task('webpGen', function() {
+  return gulp.src('source/image/*.{jpg,png}')
+    .pipe(webp({quality: 70}))
+    .pipe(gulp.dest('source/image'));
+});
+
+/* svg minify */
+
+gulp.task('svgMin', function() {
+  return gulp.src('source/image/*.svg')
+    .pipe(image({svgo: ['--enable', 'cleanupIDs', '--disable', 'convertColors']}))
+    .pipe(gulp.dest('source/image'));
+});
+
+/* svg sprite end inject in html */
+
+gulp.task('svgSprite', function() {
+  const svgs = gulp.src('source/image/*.svg', {base: 'source/image'})
+    .pipe(rename({prefix: 'icon-'}))
+    .pipe(svgstore({ inlineSvg: true }));
+
+  function fileContents(filePath, file) {
+    return file.contents.toString();
+  }
+
+  return gulp.src('source/**/*.html')
+    .pipe(inject(svgs, {transform: fileContents}))
+    .pipe(gulp.dest('source'));
+});
+
+/* font gen woff */
+
+gulp.task('fontGenWoff', function(){
+  return gulp.src('source/font/ttf/*.ttf')
+    .pipe(ttf2woff())
+    .pipe(gulp.dest('source/font/woff'));
+});
+
+/* font gen woff2 */
+
+gulp.task('fontGenWoff2', function(){
+  return gulp.src('source/font/ttf/*.ttf')
+    .pipe(ttf2woff2())
+    .pipe(gulp.dest('source/font/woff2'));
+});
+
+/* delete webp for refresh */
+
+gulp.task('cleanWebp', function() {
+  return del('source/image/*.webp');
+});
+
+/* delete font woff woff2 for refresh */
+
+gulp.task('cleanFont', function() {
+  return del(['source/font/*', '!source/font/ttf']);
+});
+
+
+/*----------------------------------------*/
+/* tasks for production on build folder   */
+/*----------------------------------------*/
+
+
+/* html minify */
+
+gulp.task('htmlMin', function() {
   return gulp.src('build/*.html')
     .pipe(htmlmin({
     collapseWhitespace: true,
@@ -67,34 +130,26 @@ gulp.task('htmlminify', function() {
     .pipe(gulp.dest('build'));
 });
 
-// css minify
+/* css minify */
 
-gulp.task('cssminify', function() {
-  return gulp.src('build/css/style.css')
+gulp.task('cssMin', function() {
+  return gulp.src('build/css/*.css')
     .pipe(csso({comments: false}))
     .pipe(gulp.dest('build/css'));
 });
 
-// js minify
+/* js minify */
 
-gulp.task('jsminify', function() {
+gulp.task('jsMin', function() {
   return gulp.src('build/js/*.js')
-          .pipe(gulpTerser({format: {comments: false}}, terser.minify))
-          .pipe(gulp.dest('build/js'));
+    .pipe(gulpTerser({format: {comments: false}}, terser.minify))
+    .pipe(gulp.dest('build/js'));
 });
 
-// webp
+/* image minify */
 
-gulp.task('webpgen', function() {
-  return gulp.src('source/image/*.{jpg, png}')
-    .pipe(webp({quality: 70}))
-    .pipe(gulp.dest('source/image'));
-});
-
-// image min
-
-gulp.task('imageminify', function() {
-  return gulp.src(['build/image/*', '!build/image/sprite.svg'])
+gulp.task('imageMin', function() {
+  return gulp.src('build/image/*')
     .pipe(image({
       optipng: ['-i 1', '-strip all', '-fix', '-o7', '-force'],
       pngquant: ['--speed=1', '--force', 256],
@@ -106,207 +161,192 @@ gulp.task('imageminify', function() {
     .pipe(gulp.dest('build/image'));
 });
 
-// svg min
+/* delete all build folder */
 
-gulp.task('svgminify', function() {
-  return gulp.src(['source/image/*.svg', '!source/image/sprite.svg'])
-    .pipe(image({svgo: ['--enable', 'cleanupIDs', '--disable', 'convertColors']}))
-    .pipe(gulp.dest('source/image'));
-});
-
-// svg sprite
-
-gulp.task('sprite', function() {
-  return gulp.src('source/image/icon-*.svg')
-    .pipe(svgstore())
-    .pipe(rename('sprite.svg'))
-    .pipe(gulp.dest('source/image'));
-});
-
-// font gen woff woff2 from ttf
-
-gulp.task('fontwoff', function(){
-  return gulp.src('source/font/ttf/*.ttf')
-    .pipe(ttf2woff())
-    .pipe(gulp.dest('source/font/woff'));
-});
-
-gulp.task('fontwoff2', function(){
-  return gulp.src('source/font/ttf/*.ttf')
-    .pipe(ttf2woff2())
-    .pipe(gulp.dest('source/font/woff2'));
-});
-
-// delete all build folder
-
-gulp.task('allclean', function() {
+gulp.task('cleanFull', function() {
   return del('build');
 });
 
-// delete build folder without image
+/* delete build folder without image  */
 
 gulp.task('clean', function() {
   return del(['build/*', '!build/image']);
 });
 
-// copy all files for build
+/* copy all files for build */
 
-gulp.task('allcopy', function() {
+gulp.task('copyFull', function() {
   return gulp.src([
-    'source/*.html',
-    'source/css/*.css',
-    'source/js/*.js',
-    'source/image/**/*',
-    '!source/image/icon-*.svg',
-    'source/font/woff/*',
-    'source/font/woff2/*',
+    'source/**',
+    '!source/sass/**',
+    '!source/font/ttf/**',
+    '!source/css/*.map',
+    '!source/image/*.svg',
     ], {base: 'source'})
     .pipe(gulp.dest('build'));
 });
 
-// copy files for build without image
+/* copy all files for build without image */
 
 gulp.task('copy', function() {
   return gulp.src([
-    'source/*.html',
-    'source/css/*.css',
-    'source/js/*.js',
-    '!source/image/icon-*.svg',
-    'source/font/woff/*',
-    'source/font/woff2/*',
+    'source/**',
+    '!source/sass/**',
+    '!source/font/ttf/**',
+    '!source/css/*.map',
+    '!source/image/**',
     ], {base: 'source'})
     .pipe(gulp.dest('build'));
 });
 
-// gulp basic
+/* server for test only product version */
 
-exports.basic = gulp.series(          // source folder
+gulp.task('serverTest', function(done) {
+  browserSync.init({
+    server: {
+       baseDir: 'build'
+    },
+  });
+  done();
+});
+
+
+/*----------------------------------------*/
+/* config commands for development        */
+/*----------------------------------------*/
+
+
+/* console command: gulp fullstart */
+
+exports.fullstart = gulp.series(
   gulp.parallel(
-    'fontwoff',                       // fontgen webp svgmin
-    'fontwoff2',
-    'webpgen',
-    'svgminify'
+    'cleanFont',
+    'cleanWebp'
   ),
-  'sprite'                            // svgsprite
-);
-
-// gulp start
-
-exports.start = gulp.series(          // source folder
-  'style',                            // style autoprefix source map
-  'serve'                             // server watcher
-);
-
-// gulp allbuild
-
-exports.allbuild = gulp.series(       // build folder
   gulp.parallel(
-    'style',                          // style autoprefix source map, clean all build
-    'allclean'
+    'cssCompil',
+    'fontGenWoff',
+    'fontGenWoff2',
+    'webpGen',
+    'svgMin'
   ),
-  'allcopy',                          // copy all files for build (without icon-*.svg)
+  'svgSprite'
+);
+
+/* console command: gulp start */
+
+exports.start = gulp.series(
+  'cssCompil',
+  'serverDev'
+);
+
+
+/* console command: gulp imgstart */
+
+exports.imgstart = gulp.series(
+  'cleanWebp',
+  'webpGen'
+);
+
+/* console command: gulp svgstart */
+
+exports.svgstart = gulp.series(
+  'svgMin',
+  'svgSprite'
+);
+
+/* console command: gulp fontstart */
+
+exports.fontstart = gulp.series(
+  'cleanFont',
   gulp.parallel(
-    'htmlminify',                     // min html css js image (without svg)
-    'cssminify',
-    'jsminify',
-    'imageminify'
+    'fontGenWoff',
+    'fontGenWoff2'
   )
 );
 
-// gulp build
 
-exports.build = gulp.series(          // build folder
+/*----------------------------------------*/
+/* config commands for production         */
+/*----------------------------------------*/
+
+
+/* console command: gulp fullbuild */
+
+exports.fullbuild = gulp.series(
+  'cleanFull',
+  'copyFull',
   gulp.parallel(
-    'style',                          // style autoprefix source map, clean build (without image)
-    'clean'
+    'htmlMin',
+    'cssMin',
+    'jsMin'
   ),
-  'copy',                             // copy files for build (without icon-*.svg, image)
+  'imageMin'
+);
+
+/* console command: gulp build */
+
+exports.build = gulp.series(
+  'clean',
+  'copy',
   gulp.parallel(
-    'htmlminify',                     // min html css js (without svg, image)
-    'cssminify',
-    'jsminify',
+    'htmlMin',
+    'cssMin',
+    'jsMin'
   )
 );
 
-// gulp test
+/* console command: gulp testbuild */
 
-exports.test = gulp.series(           // build folder
-  'servebuild'                        // server for test pruduct only
-);
-
-// gulp font
-
-exports.font = gulp.series(           // source folder
-  gulp.parallel(
-    'fontwoff',                       // font gen individual command
-    'fontwoff2'
-  )
-);
-
-// gulp picture
-
-exports.picture = gulp.series(          // source folder
-  gulp.parallel(
-    'webpgen',                        // webp svgmin individual command
-    'svgminify'
-  )
-);
-
-// gulp spritesvg
-
-exports.spritesvg = gulp.series(      // source folder
-  'sprite'                            // svg sprite individual command
+exports.testbuild = gulp.series(
+  'serverTest'
 );
 
 /*
+  Gulp
+
+  for development
+
+  first launch after download repository
   console command:
 
- - on first start run: gulp basic
-
-    the command generates fonts wff woff2, webp, compresses svg,
-    builds sprite svg from icon-*.svg — in souce folder for dev
-
- - next step: gulp start
-
-    the command compil style, autoprefix, source map and will deploy a live development
-    server — in source folder for dev
-
-  - next step: gulp allbuild
-
-    the command build pruduct version, copy files to build folder,
-    compress html, css, js, img  in sourve folder for dev
+  - `npm i`          - install devDependencies
+  - `npm run build`  - full update dev and build
 
 
-  - next step: gulp test
+  daily launch
+  console command:
 
-    the command run server for test only — in build folder for test
+  - `gulp fullstart` - first start, full update for development (css, webp, svgmin, svgsprite inject in html, fontgen)
+  - `gulp start`     - compilation of styles and live reload server
+  - `gulp imgstart`  - webp update and generation
+  - `gulp svgstart`  - svg update minify and svgsprite inject to html
+  - `gulp fontstart` - font update convert to woff & woff2
 
- - command: gulp build
 
-    images are usually prepared and compressed once,
-    so you need to be able to do the assembly without this task
+  for production
 
- - command: gulp font
+  Compressing images is a long task,
+  it makes no sense to run it every time,
+  when you update the build without changing
+  the jpg png webp, so there are two commands - fullbuild and build
 
-    the command individual for generates fonts
-    wff, woff2 — in source folder for dev
+  console command:
 
- - command: gulp picture
+  - `gulp fullbuild` - full build production version and min all files
+  - `gulp build`     - copy font, copy and minify html, css, js
+  - `gulp testbuild` - server for test only (for example for testing lighthouse)
 
-    the command individual for generates
-    webp, compresses svg — in source folder for dev
+  when developing:
 
- - command: gulp spritesvg
+  open the second tab in the browser
+  http: // localhost: 3001 / (or the address that browsersync points for gui to the console)
+  to open the server settings.
+  You can turn on outline highlighting or grid for debugging
+  in the debag section
 
-    the command individual for compresses svg,
-    builds sprite svg from icon-*.svg — in source folder for dev
+  enjoy
 
- - when developing
-    open the second tab in the browser
-    http: // localhost: 3001 /
-    to open the server settings.
-    You can turn on outline highlighting or grid for debugging
-    in the debag section
-
- - enjoy
 */
+
+
