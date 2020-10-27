@@ -134,7 +134,11 @@ gulp.task('htmlMin', function() {
 
 gulp.task('cssMin', function() {
   return gulp.src('build/css/*.css')
-    .pipe(csso({comments: false}))
+    .pipe(csso({
+      comments: false,
+      restructure: false,
+      sourceMap: false
+    }))
     .pipe(gulp.dest('build/css'));
 });
 
@@ -201,13 +205,12 @@ gulp.task('copy', function() {
 
 /* server for test only product version */
 
-gulp.task('serverTest', function(done) {
+gulp.task('serverTest', function() {
   browserSync.init({
     server: {
        baseDir: 'build'
     },
   });
-  done();
 });
 
 

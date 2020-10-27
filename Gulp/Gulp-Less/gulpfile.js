@@ -7,8 +7,7 @@ const browserSync = require('browser-sync').create();
 
 const less = require('gulp-less');
 const sourcemaps = require('gulp-sourcemaps');
-const LessAutoprefix = require('less-plugin-autoprefix');
-const autoprefix = new LessAutoprefix({ browsers: ['last 2 versions'] });
+const autoprefixer = require('gulp-autoprefixer');
 
 const htmlmin = require('gulp-htmlmin');
 const csso = require('gulp-csso');
@@ -49,9 +48,9 @@ gulp.task('cssCompil', function() {
     .pipe(sourcemaps.init())
     .pipe(less({
       paths: [path.join('source/less', 'less', 'includes')],
-      plugins: [autoprefix],
       relativeUrls: true
     }))
+    .pipe(autoprefixer())
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('source/css'))
     .pipe(browserSync.stream());
@@ -138,7 +137,11 @@ gulp.task('htmlMin', function() {
 
 gulp.task('cssMin', function() {
   return gulp.src('build/css/*.css')
-    .pipe(csso({comments: false}))
+    .pipe(csso({
+      comments: false,
+      restructure: false,
+      sourceMap: false
+    }))
     .pipe(gulp.dest('build/css'));
 });
 
@@ -205,13 +208,12 @@ gulp.task('copy', function() {
 
 /* server for test only product version */
 
-gulp.task('serverTest', function(done) {
+gulp.task('serverTest', function() {
   browserSync.init({
     server: {
        baseDir: 'build'
     },
   });
-  done();
 });
 
 
