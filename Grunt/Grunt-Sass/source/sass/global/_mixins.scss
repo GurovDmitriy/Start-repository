@@ -2,6 +2,7 @@
 
 @mixin container($width) {
   width: $width;
+  max-width: $maxWidthContainer;
   margin-left: auto;
   margin-right: auto;
 }
@@ -12,99 +13,108 @@
   outline: 2px solid $color;
 }
 
+/* shadow */
+
+@mixin customShadowDefault() {
+  box-shadow: 0 2px 2px 0 $colorBlack;
+  box-shadow: 0 2px 2px 0 var(--colorBlack, #000000);
+}
+
+@mixin customShadowHover() {
+  box-shadow: -1px 4px 4px 0 $colorBlack;
+  box-shadow: -1px 4px 4px 0 var(--colorBlack, #000000);
+}
+
+@mixin customShadowActive() {
+  box-shadow: 0 2px 2px 0 $colorBlack;
+  box-shadow: 0 2px 2px 0 var(--colorBlack, #000000);
+}
+
+/* shadov for focus */
+
+@mixin customShadowFocus($color2, $color3) {
+  box-shadow: 0 2px 2px 0 $colorBlack,
+              0 0 0 4px $color2,
+              0 0 0 6px $color3;
+  box-shadow: 0 2px 2px 0 var(--colorBlack, #000000),
+              0 0 0 4px $color2,
+              0 0 0 6px $color3;
+}
+
 
 // Font mobile mixins
 
-@mixin fontTitleMobile() {
-  font-size: 42px;
-  line-height: 64px;
+@mixin fontRootMobile() {
+  font-family: $fontFamilyMain;
+  font-size: $fontSizeMobile;
+  line-height: $lineHeightDefault;
+  font-weight: $fontWeight4;
+  font-style: normal;
+  color: $colorBlack;
+  color: var(--colorBlack2, #1e1e1f);
 }
 
-@mixin fontH1Mobile() {
-  font-size: 33px;
-  line-height: 51px;
+@mixin fontRootTablet() {
+  font-size: $fontSizeTablet;
 }
 
-@mixin fontH2Mobile() {
-  font-size: 26px;
-  line-height: 40px;
+@mixin fontRootDesktop() {
+  font-size: $fontSizeDesctop;
 }
 
-@mixin fontH3Mobile() {
-  font-size: 20px;
-  line-height: 32px;
+@mixin fontTitle() {
+  font-family: ;
+  font-size: 2.5rem;
+  font-weight: $fontWeight7;
 }
 
-@mixin fontTextMobile() {
-  font-size: 16px;
-  line-height: 26px;
+@mixin fontH1() {
+  font-family: ;
+  font-size: 2rem;
+  font-weight: $fontWeight7;
 }
 
-@mixin fontTextSmallMobile() {
-  font-size: 13px;
-  line-height: 21px;
+@mixin fontH2() {
+  font-family: ;
+  font-size: 1.5rem;
+  font-weight: $fontWeight7;
 }
 
-// Font tablet mixins
-
-@mixin fontTitleTablet() {
-  font-size: 47px;
-  line-height: 73px;
+@mixin fontH3() {
+  font-family: ;
+  font-size: 1rem;
+  font-weight: $fontWeight7;
 }
 
-@mixin fontH1Tablet() {
-  font-size: 37px;
-  line-height: 59px;
+
+@mixin fontSmall() {
+  font-family: ;
+  font-size: 0.75rem;
+  font-weight: $fontWeight7;
 }
 
-@mixin fontH2Tablet() {
-  font-size: 29px;
-  line-height: 47px;
+// color
+
+@mixin colorBlack() {
+  color: $colorBlack;
+  color: var(--colorBlack, #000000);
 }
 
-@mixin fontH3Tablet() {
-  font-size: 23px;
-  line-height: 39px;
+@mixin colorWhite() {
+  color: $colorWhite;
+  color: var(--colorWhite, #ffffff);
 }
 
-@mixin fontTextTablet() {
-  font-size: 18px;
-  line-height: 30px;
+// background-color
+
+@mixin bgColorBlack() {
+  background-color: $colorBlack;
+  background-color: var(--colorBlack, #000000);
 }
 
-@mixin fontTextSmallTablet() {
-  font-size: 14px;
-  line-height: 26px;
+@mixin bgColorWhite() {
+  background-color: $colorWhite;
+  background-color: var(--colorWhite, #ffffff);
 }
 
-// Font desctop mixins
 
-@mixin fontTitleDesktop() {
-  font-size: 52px;
-  line-height: 84px;
-}
-
-@mixin fontH1Desktop() {
-  font-size: 41px;
-  line-height: 69px;
-}
-
-@mixin fontH2Desktop() {
-  font-size: 32px;
-  line-height: 54px;
-}
-
-@mixin fontH3Desktop() {
-  font-size: 25px;
-  line-height: 45px;
-}
-
-@mixin fontTextDesktop() {
-  font-size: 20px;
-  line-height: 36px;
-}
-
-@mixin fontTextSmallDesktop() {
-  font-size: 16px;
-  line-height: 32px;
-}

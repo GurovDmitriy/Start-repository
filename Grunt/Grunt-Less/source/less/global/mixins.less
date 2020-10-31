@@ -1,111 +1,120 @@
-/* Content centered */
+// Content centered
 
 .container(@width) {
   width: @width;
+  max-width: @maxWidthContainer;
   margin-left: auto;
   margin-right: auto;
 }
 
-/* Custom focus */
+// Custom focus
 
 .focusCustom(@color) {
   outline: 2px solid @color;
 }
 
+/* shadow */
 
-
-/* Font mobile mixins */
-
-.fontTitleMobile() {
-  font-size: 42px;
-  line-height: 64px;
+.customShadowDefault() {
+  box-shadow: 0 2px 2px 0 @colorBlack;
+  box-shadow: 0 2px 2px 0 var(--colorBlack, #000000);
 }
 
-.fontH1Mobile() {
-  font-size: 33px;
-  line-height: 51px;
+.customShadowHover() {
+  box-shadow: -1px 4px 4px 0 @colorBlack;
+  box-shadow: -1px 4px 4px 0 var(--colorBlack, #000000);
 }
 
-.fontH2Mobile() {
-  font-size: 26px;
-  line-height: 40px;
+.customShadowActive() {
+  box-shadow: 0 2px 2px 0 @colorBlack;
+  box-shadow: 0 2px 2px 0 var(--colorBlack, #000000);
 }
 
-.fontH3Mobile() {
-  font-size: 20px;
-  line-height: 32px;
+/* shadov for focus */
+
+.customShadowFocus(@color2, @color3) {
+  box-shadow: 0 2px 2px 0 @colorBlack,
+              0 0 0 4px @color2,
+              0 0 0 6px @color3;
+  box-shadow: 0 2px 2px 0 var(--colorBlack, #000000),
+              0 0 0 4px @color2,
+              0 0 0 6px @color3;
 }
 
-.fontTextMobile() {
-  font-size: 16px;
-  line-height: 26px;
+
+// Font mobile mixins
+
+.fontRootMobile() {
+  font-family: @fontFamilyMain;
+  font-size: @fontSizeMobile;
+  line-height: @lineHeightDefault;
+  font-weight: @fontWeight4;
+  font-style: normal;
+  color: @colorBlack;
+  color: var(--colorBlack2, #1e1e1f);
 }
 
-.fontTextSmallMobile() {
-  font-size: 13px;
-  line-height: 21px;
+.fontRootTablet() {
+  font-size: @fontSizeTablet;
 }
 
-/* Font tablet mixins */
-
-.fontTitleTablet() {
-  font-size: 47px;
-  line-height: 73px;
+.fontRootDesktop() {
+  font-size: @fontSizeDesctop;
 }
 
-.fontH1Tablet() {
-  font-size: 37px;
-  line-height: 59px;
+.fontTitle() {
+  font-family: ;
+  font-size: 2.5rem;
+  font-weight: @fontWeight7;
 }
 
-.fontH2Tablet() {
-  font-size: 29px;
-  line-height: 47px;
+.fontH1() {
+  font-family: ;
+  font-size: 2rem;
+  font-weight: @fontWeight7;
 }
 
-.fontH3Tablet() {
-  font-size: 23px;
-  line-height: 39px;
+.fontH2() {
+  font-family: ;
+  font-size: 1.5rem;
+  font-weight: @fontWeight7;
 }
 
-.fontTextTablet() {
-  font-size: 18px;
-  line-height: 30px;
+.fontH3() {
+  font-family: ;
+  font-size: 1rem;
+  font-weight: @fontWeight7;
 }
 
-.fontTextSmallTablet() {
-  font-size: 14px;
-  line-height: 26px;
+
+.fontSmall() {
+  font-family: ;
+  font-size: 0.75rem;
+  font-weight: @fontWeight7;
 }
 
-/* Font desctop mixins */
+// color
 
-.fontTitleDesktop() {
-  font-size: 52px;
-  line-height: 84px;
+.colorBlack() {
+  color: @colorBlack;
+  color: var(--colorBlack, #000000);
 }
 
-.fontH1Desktop() {
-  font-size: 41px;
-  line-height: 69px;
+.colorWhite() {
+  color: @colorWhite;
+  color: var(--colorWhite, #ffffff);
 }
 
-.fontH2Desktop() {
-  font-size: 32px;
-  line-height: 54px;
+// background-color
+
+.bgColorBlack() {
+  background-color: @colorBlack;
+  background-color: var(--colorBlack, #000000);
 }
 
-.fontH3Desktop() {
-  font-size: 25px;
-  line-height: 45px;
+.bgColorWhite() {
+  background-color: @colorWhite;
+  background-color: var(--colorWhite, #ffffff);
 }
 
-.fontTextDesktop() {
-  font-size: 20px;
-  line-height: 36px;
-}
 
-.fontTextSmallDesktop() {
-  font-size: 16px;
-  line-height: 32px;
-}

@@ -4,13 +4,20 @@ body {
   padding: 0;
 }
 
-/* Box model */
-
 html {
   box-sizing: border-box;
   scroll-behavior: smooth;
-}
+  .fontRootMobile();
 
+  @media (min-width: @tabletWidth) {
+    .fontRootTablet();
+  }
+
+  @media (min-width: @desktopWidth) {
+    .fontRootDesktop();
+  }
+}
+/* Box model */
 
 *,
 *::before,
@@ -27,24 +34,14 @@ body {
   min-width: @mobileWidth;
   max-width: 100%;
   min-height: 100vh;
+}
 
-  font-family: 'Open-Sans', 'Arial', sans-serif;
-  .fontTextMobile();
-  font-weight: 400;
-  font-style: normal;
-  color: #000000;
-  color: var(--colorBlack, #000000);
-
-  @media (min-width: @tabletWidth) {
-    .fontTextTablet();
-  }
-
-  @media (min-width: @desktopWidth) {
-    .fontTextDesktop();
-  }
+footer {
+  flex-grow: 1;
 }
 
 /* Tag */
+
 
 p {
   margin-top: 0;
@@ -61,24 +58,39 @@ a {
 
 ul {
   padding: 0;
-  margin-top: 0;
-  margin-bottom: 0;
-
+  margin: 0;
   list-style: none;
 }
 
-img {
-  line-height: 0;
-}
-
+img,
 picture {
+  display: block;
   width: 100%;
+  height: auto;
+
+  margin: 0;
+  padding: 0;
+
+  font-size: 0;
+  line-height: 0;
 }
 
 figure {
-  margin: 0;
+  display: block;
+  width: 100%;
+  height: auto;
 
-  line-height: 0;
+  margin: 0;
+  padding: 0;
+}
+
+article {
+  margin: 0;
+  padding: 0;
+}
+
+button:hover {
+  cursor: pointer;
 }
 
 /* Sr-only */
@@ -91,9 +103,12 @@ figure {
   margin: -1px;
   padding: 0;
 
+  white-space: nowrap;
+
   border: 0;
 
-  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  clip: rect(0 0 0 0);
   overflow: hidden;
 }
 
@@ -108,8 +123,8 @@ button:focus:not(:focus-visible) {
 }
 
 .js-focus-visible .focus-visible {
-  .focusCustom(#000000);
-  .focusCustom(var(--colorBlack, #000000));
+  .focusCustom(@colorBlack);
+  .focusCustom(var(--colorBlack));
 }
 
 /* Skip link */
@@ -122,11 +137,9 @@ button:focus:not(:focus-visible) {
 
   padding: 10px;
 
-  color: #ffffff;
-  color: var(--colorWhite, #ffffff);
+  .colorWhite();
 
-  background-color: #000000;
-  background-color: var(--colorBlack, #000000);
+  .colorBlack();
 
   transform: translate(-50%, -100%);
   transition: transform 0.4s;
