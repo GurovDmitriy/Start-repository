@@ -16,6 +16,7 @@
     "gulp-image": "^6.2.1",
     "gulp-inline-css": "^4.0.0",
     "gulp-less": "^4.0.1",
+    "gulp-mailing": "^0.1.0",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-watch": "^5.0.1",
     "path": "^0.12.7"
@@ -25,7 +26,7 @@
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "git+https://github.com/GurovDmitriy/Start-repository.git"
   },
   "keywords": [
     "less",
@@ -36,5 +37,8 @@
   ],
   "author": "Gurov Dmitriy",
   "license": "ISC",
-  "homepage": ""
+  "bugs": {
+    "url": "https://github.com/GurovDmitriy/Start-repository/issues"
+  },
+  "homepage": "https://github.com/GurovDmitriy/Start-repository#readme"
 }

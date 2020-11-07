@@ -1,7 +1,7 @@
 {
-  "name": "start-repository-for-mail",
+  "name": "start-repository-for-mjml-mail",
   "version": "1.0.0",
-  "description": "mail start repository",
+  "description": "mjml mail start repository",
   "main": "gulpfile.js",
   "dependencies": {},
   "devDependencies": {
@@ -11,6 +11,7 @@
     "gulp-copy": "^4.0.1",
     "gulp-htmlmin": "^5.0.1",
     "gulp-image": "^6.2.1",
+    "gulp-mailing": "^0.1.0",
     "gulp-mjml": "^4.0.2",
     "gulp-watch": "^5.0.1",
     "mjml": "^4.7.1"
@@ -20,10 +21,10 @@
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "git+https://github.com/GurovDmitriy/Start-repository.git"
   },
   "keywords": [
-    "less",
+    "mjml",
     "gulp"
   ],
   "browserslist": [
@@ -31,5 +32,8 @@
   ],
   "author": "Gurov Dmitriy",
   "license": "ISC",
-  "homepage": ""
+  "bugs": {
+    "url": "https://github.com/GurovDmitriy/Start-repository/issues"
+  },
+  "homepage": "https://github.com/GurovDmitriy/Start-repository#readme"
 }

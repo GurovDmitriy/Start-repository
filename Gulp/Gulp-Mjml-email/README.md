@@ -1,9 +1,10 @@
 # Gulp Less Start Repository for Email
 
-- less compilation
+- mjml compilation
 - style inline
 - minify html, image
 - live development server
+- send mail
 
 Gulp
 
@@ -34,6 +35,7 @@ console command:
   - `gulp fullbuild` - full build production version and min all files
   - `gulp build`     - compil htm minify,
   - `gulp testbuild` - server for test only
+  - `gulp mail`      - sand mail
 
 when developing:
 

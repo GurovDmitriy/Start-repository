@@ -1,9 +1,20 @@
 const gulp = require('gulp');
 const browserSync = require('browser-sync').create();
-const mjml = require('gulp-mjml')
-const mjmlEngine = require('mjml')
+const mjml = require('gulp-mjml');
+const mjmlEngine = require('mjml');
 const image = require('gulp-image');
 const del = require('del');
+const mail = require("gulp-mailing");
+
+const smtpInfo = {
+  auth: {
+    user: "exampleemail@gmail.com",
+    pass: "examplepassword"
+  },
+  host: "smtp.gmail.com",
+  secureConnection: true,
+  port: 465
+};
 
 /*----------------------------------------*/
 /* tasks for development on source folder */
@@ -97,6 +108,19 @@ gulp.task('serverTest', function() {
   });
 });
 
+/* send mail */
+
+gulp.task('mail', function () {
+  return gulp.src('build/html/index.html')
+    .pipe(mail({
+      subject: 'Example',
+      to: [
+        'example@gmail.com'
+      ],
+      from: 'Example <exampleemail@gmail.com>',
+      smtp: smtpInfo
+    }));
+});
 
 /*----------------------------------------*/
 /* config commands for development        */
@@ -163,6 +187,7 @@ exports.testbuild = gulp.series(
   - `gulp fullbuild` - full build production version and min all files
   - `gulp build`     - update html for build
   - `gulp testbuild` - server for test only
+  - `gulp mail`      - sand mail
 
   when developing:
 

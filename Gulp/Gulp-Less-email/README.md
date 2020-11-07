@@ -4,6 +4,7 @@
 - style inline
 - minify html, image
 - live development server
+- send mail
 
 Gulp
 
@@ -34,6 +35,7 @@ console command:
   - `gulp fullbuild` - full build production version and min all files
   - `gulp build`     - inline style and minify html for build,
   - `gulp testbuild` - server for test only
+  - `gulp mail`      - sand mail
 
 when developing:
 
