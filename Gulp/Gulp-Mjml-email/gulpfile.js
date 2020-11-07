@@ -5,6 +5,8 @@ const mjmlEngine = require('mjml');
 const image = require('gulp-image');
 const del = require('del');
 const mail = require("gulp-mailing");
+const ttf2woff = require('gulp-ttf2woff');
+const ttf2woff2 = require('gulp-ttf2woff2');
 
 const smtpInfo = {
   auth: {
@@ -44,7 +46,23 @@ gulp.task('mjmlCompil', function () {
     }))
     .pipe(gulp.dest('source'))
     .pipe(browserSync.stream());
-})
+});
+
+/* font gen woff */
+
+gulp.task('fontGenWoff', function(){
+  return gulp.src('source/font/ttf/*.ttf')
+    .pipe(ttf2woff())
+    .pipe(gulp.dest('source/font/woff'));
+});
+
+/* font gen woff2 */
+
+gulp.task('fontGenWoff2', function(){
+  return gulp.src('source/font/ttf/*.ttf')
+    .pipe(ttf2woff2())
+    .pipe(gulp.dest('source/font/woff2'));
+});
 
 /*----------------------------------------*/
 /* tasks for production on build folder   */
@@ -60,7 +78,7 @@ gulp.task('mjmlBuildCompil', function () {
     }))
     .pipe(gulp.dest('build'))
     .pipe(browserSync.stream());
-})
+});
 
 /* image minify */
 
@@ -87,7 +105,13 @@ gulp.task('cleanFull', function() {
 /* delete build folder without image  */
 
 gulp.task('clean', function() {
-  return del(['build/*', '!build/image']);
+  return del(['build/*', '!build/image', '!build/font']);
+});
+
+/* delete font woff woff2 for refresh */
+
+gulp.task('cleanFont', function() {
+  return del(['source/font/*', '!source/font/ttf']);
 });
 
 /* copy all files for build without image */
@@ -95,6 +119,8 @@ gulp.task('clean', function() {
 gulp.task('copy', function() {
   return gulp.src([
     'source/image/*',
+    'source/font/woff/*',
+    'source/font/woff2/*',
     ], {base: 'source'})
     .pipe(gulp.dest('build'));
 });
@@ -132,6 +158,16 @@ gulp.task('mail', function () {
 exports.start = gulp.series(
   'mjmlCompil',
   'serverDev'
+);
+
+/* console command: gulp fontstart */
+
+exports.fontstart = gulp.series(
+  'cleanFont',
+  gulp.parallel(
+    'fontGenWoff',
+    'fontGenWoff2'
+  )
 );
 
 /*----------------------------------------*/
@@ -175,6 +211,7 @@ exports.testbuild = gulp.series(
   console command:
 
   - `gulp start`     - compilation html and live reload server
+  - `gulp fontstart` - font gen woff woff2 from ttf
 
   for production
 
