@@ -1,7 +1,7 @@
 # Gulp Less Start Repository
-
+---
 - less compilation
-- webp conver
+- webp generation
 - minify html, css, js, image
 - svg min, sprite and inject to html
 - font convert to woff & woff2

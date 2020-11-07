@@ -1,7 +1,7 @@
 # Grunt Less Start Repository
-
+---
 - less compilation
-- webp convert
+- webp generation
 - minify html, css, js, image, svg
 - svg sprite
 - autoprefix

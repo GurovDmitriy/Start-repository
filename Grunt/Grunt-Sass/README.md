@@ -1,7 +1,7 @@
 # Grunt Sass Start Repository
-
+---
 - sass compilation
-- webp convert
+- webp generation
 - minify html, css, js, image, svg
 - svg sprite
 - autoprefix
