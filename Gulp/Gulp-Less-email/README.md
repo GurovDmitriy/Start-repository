@@ -3,7 +3,6 @@
 - less compilation
 - style inline
 - minify html, image
-- font genetator
 - live development server
 - send mail
 
@@ -22,7 +21,6 @@ daily launch
 console command:
 
   - `gulp start`     - compilation of styles and live reload server
-  - `gulp fontstart` - font gen woff woff2 from ttf
 
 
 for production

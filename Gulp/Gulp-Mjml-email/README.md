@@ -3,7 +3,6 @@
 - mjml compilation
 - style inline
 - minify html, image
-- font generator
 - live development server
 - send mail
 
@@ -22,7 +21,6 @@ daily launch
 console command:
 
   - `gulp start`     - compilation html and live reload server
-  - `gulp fontstart` - font generator woff woff2
 
 
 for production

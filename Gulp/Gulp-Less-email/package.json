@@ -19,9 +19,7 @@
     "gulp-mailing": "^0.1.0",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-watch": "^5.0.1",
-    "path": "^0.12.7",
-    "ttf2woff": "^2.0.2",
-    "ttf2woff2": "^3.0.0"
+    "path": "^0.12.7"
   },
   "scripts": {
     "build": "gulp fullbuild"

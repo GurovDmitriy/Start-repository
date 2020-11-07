@@ -16,6 +16,5 @@
 - html compilation
 - style inline
 - minify html, image
-- font generation
 - live development server
 - send mail
