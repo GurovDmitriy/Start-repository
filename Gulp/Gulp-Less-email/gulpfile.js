@@ -23,7 +23,7 @@ gulp.task('serverDev', function(done) {
   });
   done();
   gulp.watch('source/less/**/*.less', gulp.series('cssCompil'));
-  gulp.watch(['source/*.html', 'source/js/*.js']).on('change', browserSync.reload);
+  gulp.watch('source/*.html').on('change', browserSync.reload);
 });
 
 /* style css compile, autoprefixer, source map */
@@ -180,8 +180,8 @@ exports.testbuild = gulp.series(
   console command:
 
   - `gulp fullbuild` - full build production version and min all files
-  - `gulp build`     - copy font, copy and minify html, css, js
-  - `gulp testbuild` - server for test only (for example for testing lighthouse)
+  - `gulp build`     - inline style and minify html for build,
+  - `gulp testbuild` - server for test only
 
   when developing:
 

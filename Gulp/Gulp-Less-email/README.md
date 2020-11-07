@@ -32,8 +32,8 @@ the jpg png webp, so there are two commands - fullbuild and build
 console command:
 
   - `gulp fullbuild` - full build production version and min all files
-  - `gulp build`     - copy font, copy and minify html, css, js
-  - `gulp testbuild` - server for test only (for example for testing lighthouse)
+  - `gulp build`     - inline style and minify html for build,
+  - `gulp testbuild` - server for test only
 
 when developing:
 
