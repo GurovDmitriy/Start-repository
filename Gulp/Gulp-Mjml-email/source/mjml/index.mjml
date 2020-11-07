@@ -21,7 +21,7 @@
               background-size="cover"
               background-repeat="no-repeat">
 
-    <mj-column>
+    <mj-column width="600px">
 
       <mj-include path="mjml-include/header-caption.mjml" />
       <mj-include path="mjml-include/btn-header.mjml" />
