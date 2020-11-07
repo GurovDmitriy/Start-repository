@@ -1,0 +1,13 @@
+<mj-section background-color="#fbfbfb">
+
+  <mj-column>
+      <mj-image width="100px" src="https://191n.mj.am/img/191n/3s/x0l.png" />
+  </mj-column>
+  <mj-column>
+      <mj-image width="100px" src="https://191n.mj.am/img/191n/3s/x0l.png" />
+  </mj-column>
+  <mj-column>
+      <mj-image width="100px" src="https://191n.mj.am/img/191n/3s/x0s.png" />
+  </mj-column>
+
+</mj-section>

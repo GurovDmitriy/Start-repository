@@ -1,0 +1,35 @@
+{
+  "name": "start-repository-for-mail",
+  "version": "1.0.0",
+  "description": "mail start repository",
+  "main": "gulpfile.js",
+  "dependencies": {},
+  "devDependencies": {
+    "browser-sync": "^2.26.13",
+    "del": "^6.0.0",
+    "gulp": "^4.0.2",
+    "gulp-copy": "^4.0.1",
+    "gulp-htmlmin": "^5.0.1",
+    "gulp-image": "^6.2.1",
+    "gulp-mjml": "^4.0.2",
+    "gulp-watch": "^5.0.1",
+    "mjml": "^4.7.1"
+  },
+  "scripts": {
+    "build": "gulp fullbuild"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "less",
+    "gulp"
+  ],
+  "browserslist": [
+    "defaults"
+  ],
+  "author": "Gurov Dmitriy",
+  "license": "ISC",
+  "homepage": ""
+}

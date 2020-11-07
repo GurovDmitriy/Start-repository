@@ -1,0 +1,55 @@
+<mjml>
+<mj-head>
+
+  <mj-preview>Hello MJML</mj-preview>
+
+  <mj-attributes>
+
+    <mj-class name="colorGray" color="#626262" />
+    <mj-class name="bgGray" background-color="#f0f0f0" />
+    <mj-class name="bgRed" background-color="#f63a4d" />
+
+  </mj-attributes>
+</mj-head>
+<mj-body>
+
+  <!-- Company Header -->
+  <mj-include path="mjml-include/caption.mjml" />
+
+  <!-- Image Header -->
+  <mj-section background-url="https://1.bp.blogspot.com/-TPrfhxbYpDY/Uh3Refzk02I/AAAAAAAALw8/5sUJ0UUGYuw/s1600/New+York+in+The+1960's+-+70's+(2).jpg"
+              background-size="cover"
+              background-repeat="no-repeat">
+
+    <mj-column>
+
+      <mj-include path="mjml-include/header-caption.mjml" />
+      <mj-include path="mjml-include/btn-header.mjml" />
+
+    </mj-column>
+
+  </mj-section>
+
+  <!-- Introduction Text -->
+  <mj-section background-color="#fafafa">
+
+    <mj-column width="400px">
+
+      <mj-include path="mjml-include/main-caption.mjml" />
+      <mj-include path="mjml-include/btn-main.mjml" />
+
+    </mj-column>
+
+  </mj-section>
+
+  <!-- 2 columns section -->
+  <mj-include path="mjml-include/main-image.mjml" />
+
+  <!-- Icons -->
+  <mj-include path="mjml-include/main-icons.mjml" />
+
+  <!-- Social Icons -->
+  <mj-include path="mjml-include/footer.mjml" />
+
+</mj-body>
+<mjml>

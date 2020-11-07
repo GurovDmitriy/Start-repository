@@ -1,0 +1,25 @@
+<mj-section background-color="#ffffff">
+
+  <mj-column>
+      <mj-image width="200px"
+                src="https://designspell.files.wordpress.com/2012/01/sciolino-paris-bw.jpg" />
+  </mj-column>
+
+  <mj-column>
+
+      <mj-text font-style="italic"
+               font-size="20px"
+               font-family="Helvetica Neue"
+               mj-class="colorGray">
+        Find amazing places
+      </mj-text>
+
+      <mj-text mj-class="colorGray">Lorem ipsum dolor sit amet,
+        consectetur adipisicing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+        quis nostrud exercitation ullamco.
+      </mj-text>
+
+  </mj-column>
+
+</mj-section>
