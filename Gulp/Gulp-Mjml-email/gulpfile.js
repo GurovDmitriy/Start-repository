@@ -25,12 +25,12 @@ const smtpInfo = {
 gulp.task('serverDev', function(done) {
   browserSync.init({
     server: {
-       baseDir: 'source/mjml-html'
+       baseDir: 'source'
     },
   });
   done();
   gulp.watch('source/mjml/**/*.mjml', gulp.series('mjmlCompil'));
-  gulp.watch('source/mjml-html/*.html').on('change', browserSync.reload);
+  gulp.watch('source/*.html').on('change', browserSync.reload);
 });
 
 /* mjml compil */
@@ -39,9 +39,10 @@ gulp.task('mjmlCompil', function () {
   return gulp.src('source/mjml/*.mjml')
     .pipe(mjml(mjmlEngine, {
       minify: false,
-      validationLevel: 'strict'
+      validationLevel: 'strict',
+      beautify: true
     }))
-    .pipe(gulp.dest('source/mjml-html'))
+    .pipe(gulp.dest('source'))
     .pipe(browserSync.stream());
 })
 
@@ -57,7 +58,7 @@ gulp.task('mjmlBuildCompil', function () {
       minify: true,
       validationLevel: 'strict'
     }))
-    .pipe(gulp.dest('build/html'))
+    .pipe(gulp.dest('build'))
     .pipe(browserSync.stream());
 })
 
@@ -103,7 +104,7 @@ gulp.task('copy', function() {
 gulp.task('serverTest', function() {
   browserSync.init({
     server: {
-       baseDir: 'build/html'
+       baseDir: 'build'
     },
   });
 });
