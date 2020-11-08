@@ -112,7 +112,7 @@ gulp.task('serverTest', function() {
 /* send mail */
 
 gulp.task('mail', function () {
-  return gulp.src('build/html/index.html')
+  return gulp.src('build/index.html')
     .pipe(mail({
       subject: 'Example',
       to: [

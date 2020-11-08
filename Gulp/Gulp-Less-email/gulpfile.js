@@ -107,7 +107,6 @@ gulp.task('clean', function() {
 gulp.task('copy', function() {
   return gulp.src([
     'source/image/*',
-
     ], {base: 'source'})
     .pipe(gulp.dest('build'));
 });
@@ -125,7 +124,7 @@ gulp.task('serverTest', function() {
 /* send mail */
 
 gulp.task('mail', function () {
-  return gulp.src('build/html/index.html')
+  return gulp.src('build/index.html')
     .pipe(mail({
       subject: 'Example',
       to: [
