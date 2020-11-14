@@ -1,0 +1,80 @@
+body,
+table.body,
+h1, h2, h3, h4, h5, h6, p, td, th {
+  font-size: 14px;
+  line-height: 22px;
+  color: #0a0a0a;
+}
+
+table.container {
+  background: none;
+}
+
+table.usr-h-line th {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+th.usr-section {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+table.usr-h-line th {
+  border-bottom: 1px solid #65707a;
+}
+
+table.usr-gallery__btn table td {
+  background: #51c4d4;
+  border: 2px solid #51c4d4;
+}
+
+th.usr-header__section {
+  background-color: #ffffff;
+}
+
+.usr-header__image {
+  width: 335px;
+}
+
+th.usr-gallery__item th {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 8px;
+  padding-right: 8px;
+
+  background-color: #ffffff;
+  border-bottom: 2px solid #65707a;
+}
+
+.usr-gallery__item .usr-gallery__item-text {
+  font-size: 12px;
+  line-height: 18px;
+  color: #65707a;
+}
+
+.usr-gallery__image {
+  width: 150px;
+}
+
+table.usr-gallery__btn {
+  margin: 0 0 0 0;
+  Margin: 0 0 0 0;
+}
+
+th.usr-social__section {
+  background-color: #66707a;
+}
+
+.usr-social__icon {
+  width: 40px;
+}
+
+th.usr-copyright__section {
+  background-color: #51c4d4;
+
+  th.menu-item a {
+    color: #ffffff;
+  }
+}
+

@@ -1,6 +1,7 @@
-# Gulp MJML Start Repository for Email
+# Gulp Sass Foundation Start Repository for Email
 ---
-- mjml compilation
+- sass compilation
+- html compilation
 - style inline
 - minify html, image
 - live development server
@@ -20,7 +21,7 @@ console command:
 daily launch
 console command:
 
-  - `gulp start`     - compilation html and live reload server
+  - `gulp start`     - compilation of styles and html and live reload server
 
 
 for production
@@ -33,7 +34,7 @@ the jpg png webp, so there are two commands - fullbuild and build
 console command:
 
   - `gulp fullbuild` - full build production version and min all files
-  - `gulp build`     - compil htm minify,
+  - `gulp build`     - inline style and minify html for build,
   - `gulp testbuild` - server for test only
   - `gulp mail`      - sand mail
 

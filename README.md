@@ -12,6 +12,7 @@
 
 #### Gulp Less email
 #### Gulp Mjml email
+#### Gulp Sass Foundation email
 
 - html compilation
 - style inline

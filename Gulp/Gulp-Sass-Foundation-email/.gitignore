@@ -54,6 +54,4 @@ Thumbs.db
 **/source/image/*.webp
 **/node_modules
 **/build
-**/mjml-html
-**/Gulp-Mjml-email/**/*.html
-**/Gulp-Less-Foundation-email/source/*.html
+**/source/*.html
