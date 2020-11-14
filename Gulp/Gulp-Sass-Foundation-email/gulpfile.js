@@ -10,6 +10,7 @@ const image = require('gulp-image');
 const del = require('del');
 const mail = require("gulp-mailing");
 const inky = require('inky');
+const smoosher = require('gulp-smoosher');
 
 const smtpInfo = {
   auth: {
@@ -66,8 +67,11 @@ gulp.task('htmlCompil', function() {
 
 gulp.task('inlineStyle', function() {
   return gulp.src('source/*.html')
-    .pipe(inlineCss())
-    .pipe(gulp.dest('build'));
+  .pipe(smoosher())
+  .pipe(inlineCss({
+            preserveMediaQueries: true
+          }))
+  .pipe(gulp.dest('build'));
 });
 
 /* html minify */

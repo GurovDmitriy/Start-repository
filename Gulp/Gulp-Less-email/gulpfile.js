@@ -4,6 +4,7 @@ const less = require('gulp-less');
 const sourcemaps = require('gulp-sourcemaps');
 const autoprefixer = require('gulp-autoprefixer');
 const inlineCss = require('gulp-inline-css');
+const smoosher = require('gulp-smoosher');
 const htmlmin = require('gulp-htmlmin');
 const image = require('gulp-image');
 const del = require('del');
@@ -59,7 +60,10 @@ gulp.task('cssCompil', function() {
 
 gulp.task('inlineStyle', function() {
   return gulp.src('source/*.html')
-    .pipe(inlineCss())
+    .pipe(smoosher())
+    .pipe(inlineCss({
+              preserveMediaQueries: true
+            }))
     .pipe(gulp.dest('build'));
 });
 

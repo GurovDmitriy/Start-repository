@@ -17,6 +17,7 @@
     "gulp-inline-css": "^4.0.0",
     "gulp-mailing": "^0.1.0",
     "gulp-sass": "^4.1.0",
+    "gulp-smoosher": "0.0.9",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-watch": "^5.0.1",
     "inky": "^1.4.2",
