@@ -4,17 +4,7 @@ const mjml = require('gulp-mjml');
 const mjmlEngine = require('mjml');
 const image = require('gulp-image');
 const del = require('del');
-const mail = require("gulp-mailing");
-
-const smtpInfo = {
-  auth: {
-    user: "exampleemail@gmail.com",
-    pass: "examplepassword"
-  },
-  host: "smtp.gmail.com",
-  secureConnection: true,
-  port: 465
-};
+const archiver = require('gulp-archiver2');
 
 /*----------------------------------------*/
 /* tasks for development on source folder */
@@ -65,7 +55,7 @@ gulp.task('mjmlBuildCompil', function () {
 /* image minify */
 
 gulp.task('imageMin', function() {
-  return gulp.src('build/image/*')
+  return gulp.src('build/image/**/*.{jpg,png,svg,gif}')
     .pipe(image({
       optipng: ['-i 1', '-strip all', '-fix', '-o7', '-force'],
       pngquant: ['--speed=1', '--force', 256],
@@ -80,23 +70,48 @@ gulp.task('imageMin', function() {
 
 /* delete all build folder */
 
-gulp.task('cleanFull', function() {
+gulp.task('cleanFullBuild', function() {
   return del('build');
+});
+
+gulp.task('cleanFullProduct', function() {
+  return del('product');
+});
+
+
+gulp.task('addArchive', function () {
+  return gulp.src(['product/**', '!product/*.zip'])
+    .pipe(archiver.create('archive.zip'))
+    .pipe(gulp.dest('product'));
 });
 
 /* delete build folder without image  */
 
-gulp.task('clean', function() {
+gulp.task('cleanBuild', function() {
   return del(['build/*', '!build/image']);
 });
 
 /* copy all files for build without image */
 
-gulp.task('copy', function() {
+gulp.task('copyBuildImg', function() {
   return gulp.src([
-    'source/image/*',
+    'source/image/**/*',
     ], {base: 'source'})
     .pipe(gulp.dest('build'));
+});
+
+gulp.task('copyProductImg', function() {
+  return gulp.src([
+    'build/image/**/*',
+    ], {base: 'build'})
+    .pipe(gulp.dest('product'));
+});
+
+gulp.task('copyProductFile', function() {
+  return gulp.src([
+    'source/index.html',
+    ], {base: 'source'})
+    .pipe(gulp.dest('product'));
 });
 
 /* server for test only product version */
@@ -107,20 +122,6 @@ gulp.task('serverTest', function() {
        baseDir: 'build'
     },
   });
-});
-
-/* send mail */
-
-gulp.task('mail', function () {
-  return gulp.src('build/index.html')
-    .pipe(mail({
-      subject: 'Example',
-      to: [
-        'example@gmail.com'
-      ],
-      from: 'Example <exampleemail@gmail.com>',
-      smtp: smtpInfo
-    }));
 });
 
 /*----------------------------------------*/
@@ -141,17 +142,27 @@ exports.start = gulp.series(
 /* console command: gulp fullbuild */
 
 exports.fullbuild = gulp.series(
-  'cleanFull',
-  'copy',
+  'cleanFullBuild',
+  'cleanFullProduct',
+  'mjmlCompil',
   'mjmlBuildCompil',
-  'imageMin'
+  'copyBuildImg',
+  'imageMin',
+  'copyProductImg',
+  'copyProductFile',
+  'addArchive'
 );
 
 /* console command: gulp build */
 
 exports.build = gulp.series(
-  'clean',
-  'mjmlBuildCompil'
+  'cleanBuild',
+  'cleanFullProduct',
+  'mjmlCompil',
+  'mjmlBuildCompil',
+  'copyProductImg',
+  'copyProductFile',
+  'addArchive'
 );
 
 /* console command: gulp testbuild */
@@ -159,46 +170,3 @@ exports.build = gulp.series(
 exports.testbuild = gulp.series(
   'serverTest'
 );
-
-/*
-  Gulp
-
-  for development
-
-  first launch after download repository
-  console command:
-
-  - `npm i`          - install devDependencies
-  - `npm run build`  - full update dev and build
-
-  daily launch
-  console command:
-
-  - `gulp start`     - compilation html and live reload server
-
-  for production
-
-  Compressing images is a long task,
-  it makes no sense to run it every time,
-  when you update the build without changing
-  the jpg png webp, so there are two commands - fullbuild and build
-
-  console command:
-
-  - `gulp fullbuild` - full build production version and min all files
-  - `gulp build`     - update html for build
-  - `gulp testbuild` - server for test only
-  - `gulp mail`      - sand mail
-
-  when developing:
-
-  open the second tab in the browser
-  http: // localhost: 3001 / (or the address that browsersync points for gui to the console)
-  to open the server settings.
-  You can turn on outline highlighting or grid for debugging
-  in the debag section
-
-  enjoy
-
-*/
-

@@ -54,5 +54,6 @@ Thumbs.db
 **/source/image/*.webp
 **/node_modules
 **/build
-*.html
+**/product
+**/source/index.html
 
