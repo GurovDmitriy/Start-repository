@@ -1,0 +1,32 @@
+{
+  "name": "start-repository-for-gulp-mustache",
+  "version": "1.0.0",
+  "description": "start-repository-for-gulp-mustache",
+  "main": "gulpfile.js",
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "gulp-mustache": "^5.0.0",
+    "gulp-rename": "^2.0.0"
+  },
+  "scripts": {
+    "build": "gulp fullbuild"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GurovDmitriy/Start-repository.git"
+  },
+  "keywords": [
+    "mustache",
+    "gulp"
+  ],
+  "browserslist": [
+    "defaults"
+  ],
+  "author": "Gurov Dmitriy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GurovDmitriy/Start-repository/issues"
+  },
+  "homepage": "https://github.com/GurovDmitriy/Start-repository#readme"
+}
