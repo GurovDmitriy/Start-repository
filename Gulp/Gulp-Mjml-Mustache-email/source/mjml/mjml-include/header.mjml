@@ -1,0 +1,11 @@
+<mj-column
+  mj-class="header__column"
+  css-class="header__column">
+
+ <mj-image
+    mj-class="logo header__logo"
+    css-class="logo header__logo"
+    src="{{content.src}}" />
+
+</mj-column>
+

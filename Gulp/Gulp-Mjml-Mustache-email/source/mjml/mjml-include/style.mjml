@@ -1,0 +1,11 @@
+<mj-style>
+
+@media screen and (max-width: 479px) {
+
+}
+
+@media screen and (min-width: 480px) {
+
+}
+
+</mj-style>
