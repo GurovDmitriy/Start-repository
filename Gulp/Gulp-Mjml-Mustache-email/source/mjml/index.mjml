@@ -3,7 +3,7 @@
   <mj-head>
 
     <mj-title>Title</mj-title>
-    <mj-preview>Preview</mj-preview>
+    <mj-preview>Главный герой&nbsp;&mdash; 27-летний Илья Горюнов, семь лет отсидевший в&nbsp;тюрьме по&nbsp;ложному обвинению в&nbsp;распространении наркотиков. Когда Илья выходит на&nbsp;свободу, он&nbsp;понимает, что прежняя жизнь, по&nbsp;которой он&nbsp;тосковал, разрушена, и&nbsp;вернуться к&nbsp;ней он&nbsp;больше не&nbsp;сможет.</mj-preview>
 
     <mj-include path="mjml-include/attributes.mjml" />
     <mj-include path="mjml-include/style-inline.mjml" />

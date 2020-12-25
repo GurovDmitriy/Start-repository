@@ -6,16 +6,16 @@
     display: block;
   }
 
-  .body {
-    min-width: 308px !important;
-    padding-right: 12px !important;
-    padding-left: 12px !important;
+.body {
+    min-width: 308px! important;
+    padding-right: 12px! important;
+    padding-left: 12px! important;
   }
 
   span,
   p, {
-    margin: 0 !important;
-    padding: 0 !important;
+    margin: 0! important;
+    padding: 0! important;
   }
 
 </mj-style>

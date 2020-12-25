@@ -7,6 +7,7 @@ const del = require('del');
 const mustache = require("gulp-mustache");
 const rename = require("gulp-rename");
 const archiver = require('gulp-archiver2');
+const typograf = require('gulp-typograf');
 
 /*----------------------------------------*/
 /* tasks for development on source folder */
@@ -145,6 +146,18 @@ gulp.task('serverTest', function() {
   });
 });
 
+/* typograf */
+
+gulp.task('typograf', function() {
+    return gulp.src(['source/mjml/**/*.mjml',
+                      '!source/mjml/**/attributes.mjml',
+                      '!source/mjml/**/style-inline.mjml',
+                      '!source/mjml/**/style.mjml' ])
+        .pipe(typograf({ locale: ['ru', 'en-US'],
+                         htmlEntity: {type: 'name'} }))
+        .pipe(gulp.dest('source/mjml'));
+});
+
 /*----------------------------------------*/
 /* config commands for development        */
 /*----------------------------------------*/
@@ -152,6 +165,7 @@ gulp.task('serverTest', function() {
 /* console command: gulp start */
 
 exports.start = gulp.series(
+  'typograf',
   'mjmlCompil',
   'mustacheFile',
   'serverDev'
@@ -166,6 +180,7 @@ exports.start = gulp.series(
 exports.fullbuild = gulp.series(
   'cleanFullBuild',
   'cleanFullProduct',
+  'typograf',
   'mjmlCompil',
   'mustacheFile',
   'mjmlBuildCompil',
@@ -182,6 +197,7 @@ exports.fullbuild = gulp.series(
 exports.build = gulp.series(
   'cleanBuild',
   'cleanFullProduct',
+  'typograf',
   'mjmlCompil',
   'mustacheFile',
   'mjmlBuildCompil',
