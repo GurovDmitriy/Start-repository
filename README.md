@@ -18,4 +18,5 @@
 - style inline
 - minify html, image
 - live development server
-- send mail
+- mustache
+- archive

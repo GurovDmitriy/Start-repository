@@ -55,5 +55,5 @@ Thumbs.db
 **/node_modules
 **/build
 **/product
-**/source/index.html
+**/source/**/*.html
 

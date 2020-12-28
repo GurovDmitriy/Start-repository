@@ -1,55 +1,24 @@
-<mjml>
-<mj-head>
+<mjml lang="ru">
 
-  <mj-preview>Hello MJML</mj-preview>
+  <mj-head>
 
-  <mj-attributes>
+    <mj-title>Title</mj-title>
+    <mj-preview>Главный герой&nbsp;&mdash; 27-летний Илья Горюнов, семь лет отсидевший в&nbsp;тюрьме по&nbsp;ложному обвинению в&nbsp;распространении наркотиков. Когда Илья выходит на&nbsp;свободу, он&nbsp;понимает, что прежняя жизнь, по&nbsp;которой он&nbsp;тосковал, разрушена, и&nbsp;вернуться к&nbsp;ней он&nbsp;больше не&nbsp;сможет.</mj-preview>
 
-    <mj-class name="colorGray" color="#626262" />
-    <mj-class name="bgGray" background-color="#f0f0f0" />
-    <mj-class name="bgRed" background-color="#f63a4d" />
+    <mj-include path="mjml-include/attributes.mjml" />
+    <mj-include path="mjml-include/style-inline.mjml" />
+    <mj-include path="mjml-include/style.mjml" />
 
-  </mj-attributes>
-</mj-head>
-<mj-body>
+  </mj-head>
 
-  <!-- Company Header -->
-  <mj-include path="mjml-include/caption.mjml" />
+  <mj-body css-class="body"
+           background-color="#ecf2f9">
 
-  <!-- Image Header -->
-  <mj-section background-url="https://1.bp.blogspot.com/-TPrfhxbYpDY/Uh3Refzk02I/AAAAAAAALw8/5sUJ0UUGYuw/s1600/New+York+in+The+1960's+-+70's+(2).jpg"
-              background-size="cover"
-              background-repeat="no-repeat">
-
-    <mj-column width="100%">
-
-      <mj-include path="mjml-include/header-caption.mjml" />
-      <mj-include path="mjml-include/btn-header.mjml" />
-
-    </mj-column>
-
+  <mj-section mj-class="header"
+              css-class="header">
+    <mj-include path="mjml-include/header.mjml" />
   </mj-section>
 
-  <!-- Introduction Text -->
-  <mj-section background-color="#fafafa">
+  </mj-body>
 
-    <mj-column width="400px">
-
-      <mj-include path="mjml-include/main-caption.mjml" />
-      <mj-include path="mjml-include/btn-main.mjml" />
-
-    </mj-column>
-
-  </mj-section>
-
-  <!-- 2 columns section -->
-  <mj-include path="mjml-include/main-image.mjml" />
-
-  <!-- Icons -->
-  <mj-include path="mjml-include/main-icons.mjml" />
-
-  <!-- Social Icons -->
-  <mj-include path="mjml-include/footer.mjml" />
-
-</mj-body>
-<mjml>
+</mjml>

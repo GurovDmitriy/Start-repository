@@ -1,10 +1,12 @@
 const gulp = require('gulp');
 const browserSync = require('browser-sync').create();
-const mjml = require('gulp-mjml');
 const mjmlEngine = require('mjml');
-const image = require('gulp-image');
+const mjml = require('gulp-mjml');
 const del = require('del');
+const mustache = require("gulp-mustache");
+const typograf = require('gulp-typograf');
 const archiver = require('gulp-archiver2');
+const image = require('gulp-image');
 
 /*----------------------------------------*/
 /* tasks for development on source folder */
@@ -19,7 +21,7 @@ gulp.task('serverDev', function(done) {
     },
   });
   done();
-  gulp.watch('source/mjml/**/*.mjml', gulp.series('mjmlCompil'));
+  gulp.watch(['source/mjml/**/*.mjml', 'source/content/**/*.json'], gulp.series(['mjmlCompil', 'mustacheFile']));
   gulp.watch('source/*.html').on('change', browserSync.reload);
 });
 
@@ -32,7 +34,15 @@ gulp.task('mjmlCompil', function () {
       validationLevel: 'strict',
       beautify: true
     }))
-    .pipe(gulp.dest('source'))
+    .pipe(gulp.dest('source'));
+});
+
+/* mustache */
+
+gulp.task('mustacheFile', function(done) {
+  return gulp.src("source/*")
+    .pipe(mustache('source/content/content.json',{},{}))
+    .pipe(gulp.dest("source"))
     .pipe(browserSync.stream());
 });
 
@@ -48,8 +58,15 @@ gulp.task('mjmlBuildCompil', function () {
       minify: true,
       validationLevel: 'strict'
     }))
-    .pipe(gulp.dest('build'))
-    .pipe(browserSync.stream());
+    .pipe(gulp.dest('build'));
+});
+
+/* mustache */
+
+gulp.task('mustacheFileBuild', function(done) {
+  return gulp.src("build/*")
+    .pipe(mustache('source/content/content.json',{},{}))
+    .pipe(gulp.dest("build"));
 });
 
 /* image minify */
@@ -78,9 +95,8 @@ gulp.task('cleanFullProduct', function() {
   return del('product');
 });
 
-
 gulp.task('addArchive', function () {
-  return gulp.src(['product/**', '!product/*.zip'])
+  return gulp.src(['product/*', '!product/*.zip'])
     .pipe(archiver.create('archive.zip'))
     .pipe(gulp.dest('product'));
 });
@@ -114,6 +130,18 @@ gulp.task('copyProductFile', function() {
     .pipe(gulp.dest('product'));
 });
 
+/* typograf */
+
+gulp.task('typograf', function() {
+    return gulp.src(['source/mjml/**/*.mjml',
+                      '!source/mjml/**/attributes.mjml',
+                      '!source/mjml/**/style-inline.mjml',
+                      '!source/mjml/**/style.mjml' ])
+        .pipe(typograf({ locale: ['ru', 'en-US'],
+                         htmlEntity: {type: 'name'} }))
+        .pipe(gulp.dest('source/mjml'));
+});
+
 /* server for test only product version */
 
 gulp.task('serverTest', function() {
@@ -131,7 +159,9 @@ gulp.task('serverTest', function() {
 /* console command: gulp start */
 
 exports.start = gulp.series(
+  'typograf',
   'mjmlCompil',
+  'mustacheFile',
   'serverDev'
 );
 
@@ -144,8 +174,11 @@ exports.start = gulp.series(
 exports.fullbuild = gulp.series(
   'cleanFullBuild',
   'cleanFullProduct',
+  'typograf',
   'mjmlCompil',
+  'mustacheFile',
   'mjmlBuildCompil',
+  'mustacheFileBuild',
   'copyBuildImg',
   'imageMin',
   'copyProductImg',
@@ -158,8 +191,11 @@ exports.fullbuild = gulp.series(
 exports.build = gulp.series(
   'cleanBuild',
   'cleanFullProduct',
+  'typograf',
   'mjmlCompil',
+  'mustacheFile',
   'mjmlBuildCompil',
+  'mustacheFileBuild',
   'copyProductImg',
   'copyProductFile',
   'addArchive'

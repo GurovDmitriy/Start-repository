@@ -1,0 +1,26 @@
+<mj-style>
+
+body {
+  min-width: 320px !important;
+}
+
+.body {
+  min-width: 308px !important;
+}
+
+
+@media screen and (max-width: 479px) {
+  body {
+    min-width: 320px !important;
+  }
+
+  .body {
+    min-width: 308px !important;
+  }
+}
+
+@media screen and (min-width: 480px) {
+
+}
+
+</mj-style>

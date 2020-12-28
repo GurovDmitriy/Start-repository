@@ -1,0 +1,15 @@
+<mj-column
+  mj-class="header__column"
+  css-class="header__column">
+
+ <mj-text>
+
+ <p>{{{content.var-mustache}}} Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do&nbsp;eiusmod
+ tempor incididunt ut&nbsp;labore et&nbsp;dolore magna aliqua. Ut&nbsp;enim ad&nbsp;minim veniam,
+ quis nostrud exercitation ullamco laboris nisi ut&nbsp;aliquip ex&nbsp;ea&nbsp;commodo
+ consequat. Duis aute irure dolor in&nbsp;reprehenderit in&nbsp;voluptate velit esse
+ cillum dolore eu&nbsp;fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+ proident, sunt in&nbsp;culpa qui officia deserunt mollit anim id&nbsp;est laborum.</p>
+ </mj-text>
+
+</mj-column>

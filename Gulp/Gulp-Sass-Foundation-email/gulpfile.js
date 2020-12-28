@@ -8,20 +8,8 @@ const inlineCss = require('gulp-inline-css');
 const htmlmin = require('gulp-htmlmin');
 const image = require('gulp-image');
 const del = require('del');
-const mail = require("gulp-mailing");
 const inky = require('inky');
 const smoosher = require('gulp-smoosher');
-
-const smtpInfo = {
-  auth: {
-    user: "exampleemail@gmail.com",
-    pass: "examplepassword"
-  },
-  host: "smtp.gmail.com",
-  secureConnection: true,
-  port: 465
-};
-
 
 /*----------------------------------------*/
 /* tasks for development on source folder */
@@ -132,20 +120,6 @@ gulp.task('serverTest', function() {
   });
 });
 
-/* send mail */
-
-gulp.task('mail', function () {
-  return gulp.src('build/index.html')
-    .pipe(mail({
-      subject: 'Example',
-      to: [
-        'example@gmail.com'
-      ],
-      from: 'Example <exampleemail@gmail.com>',
-      smtp: smtpInfo
-    }));
-});
-
 
 /*----------------------------------------*/
 /* config commands for development        */
@@ -192,46 +166,4 @@ exports.build = gulp.series(
 exports.testbuild = gulp.series(
   'serverTest'
 );
-
-/*
-  Gulp
-
-  for development
-
-  first launch after download repository
-  console command:
-
-  - `npm i`          - install devDependencies
-  - `npm run build`  - full update dev and build
-
-  daily launch
-  console command:
-
-  - `gulp start`     - compilation of styles and live reload server
-
-  for production
-
-  Compressing images is a long task,
-  it makes no sense to run it every time,
-  when you update the build without changing
-  the jpg png webp, so there are two commands - fullbuild and build
-
-  console command:
-
-  - `gulp fullbuild` - full build production version and min all files
-  - `gulp build`     - inline style and minify html for build,
-  - `gulp testbuild` - server for test only
-  - `gulp mail`      - sand mail
-
-  when developing:
-
-  open the second tab in the browser
-  http: // localhost: 3001 / (or the address that browsersync points for gui to the console)
-  to open the server settings.
-  You can turn on outline highlighting or grid for debugging
-  in the debag section
-
-  enjoy
-
-*/
 
