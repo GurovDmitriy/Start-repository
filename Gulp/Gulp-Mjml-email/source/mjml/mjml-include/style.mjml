@@ -1,5 +1,23 @@
 <mj-style>
 
+/* :root {
+  color-scheme: light dark;
+  supported-color-schemes: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #111;
+    color: #eee;
+  }
+}
+
+[data-ogsc] body {
+  background-color: #111;
+  color: #eee;
+}
+ */
+
 body {
   min-width: 320px !important;
 }

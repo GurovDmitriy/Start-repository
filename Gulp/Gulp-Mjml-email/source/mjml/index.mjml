@@ -9,6 +9,11 @@
     <mj-include path="mjml-include/style-inline.mjml" />
     <mj-include path="mjml-include/style.mjml" />
 
+    <mj-raw>
+      <!-- <meta name="color-scheme" content="light dark">
+      <meta name="supported-color-schemes" content="light dark"> -->
+    </mj-raw>
+
   </mj-head>
 
   <mj-body css-class="body"
