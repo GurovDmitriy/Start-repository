@@ -159,7 +159,6 @@ gulp.task('serverTest', function() {
 /* console command: gulp start */
 
 exports.start = gulp.series(
-  'typograf',
   'mjmlCompil',
   'mustacheFile',
   'serverDev'
@@ -174,7 +173,6 @@ exports.start = gulp.series(
 exports.fullbuild = gulp.series(
   'cleanFullBuild',
   'cleanFullProduct',
-  'typograf',
   'mjmlCompil',
   'mustacheFile',
   'mjmlBuildCompil',
@@ -191,7 +189,6 @@ exports.fullbuild = gulp.series(
 exports.build = gulp.series(
   'cleanBuild',
   'cleanFullProduct',
-  'typograf',
   'mjmlCompil',
   'mustacheFile',
   'mjmlBuildCompil',
